@@ -32,4 +32,7 @@ def create_app(test_config=None):
     from . import leaderboards
     app.register_blueprint(leaderboards.bp)
 
+    from . import homePage
+    app.register_blueprint(homePage.bp)
+
     return app
