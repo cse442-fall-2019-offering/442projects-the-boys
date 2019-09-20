@@ -42,5 +42,7 @@ def create_app(test_config=None):
     from . import profiles
     app.register_blueprint(profiles.bp)
 
+    from . import quickEntry
+    app.register_blueprint(quickEntry.bp)
 
     return app
