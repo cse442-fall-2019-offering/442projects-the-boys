@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block header %}
+{% block title %}{% endblock %}
+{% endblock %}
+
+{% block content %}
+ <div class = "container-fluid">
+     <div class = "row">
+         <div class = "col-md-3 col-sm-12 mt-3">
+         <div class = "card">
+             <div class = "card-header">
+                <h3>Your Information</h3>
+                 </div>
+                     <ul class="list-group">
+                       <a href = "/settings/index"><li class="list-group-item active"  >Account settings</li></a>
+                       <a href = "/settings/addexpenses"><li class="list-group-item" >Add expenses</li></a>
+                       <a href = ""><li class="list-group-item">Other</li></a>
+                       <a href = ""><li class="list-group-item">Another</li></a>
+                    </ul>
+                 </div>
+            </div>
+     <div class = "card col-md-7 offset-md-1 col-sm-12 mt-3">
+         <div class = "card-header">
+        <h1>Account Settings</h1>
+         </div>
+         <div class = "card-body">
+    <form>
+        <div class = "row">
+        <div class="form-group col-6">
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control" id="firstName" aria-describedby="firstName" value = "Tyler" placeholder="First name">
+
+      </div>
+        <div class = "form-group col-6">
+             <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" id="lastName" aria-describedby="lastName" value = "Gelinas" placeholder="Last name">
+        </div>
+            </div>
+        <div class="form-group">
+        <label for="userName">User Name</label>
+        <input type="text" class="form-control" id="userName" aria-describedby="userName" value = "tylergel" placeholder="Username">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" value = "tylergel@buffalo.edu" placeholder="Enter email">
+      </div>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="anon">
+        <label class="form-check-label" for="anon">Remain Anonymous</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Save Settings</button>
+    </form>
+         </div>
+ </div>
+ </div>
+     </div>
+{% endblock %}

@@ -2,36 +2,52 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <title>{% block title %}{% endblock %} - Quick Finance</title>
 
 <body>
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">Quick Finance</a>
-        </div>
-        <ul class="nav navbar-nav">
-          <h1>Welcome User</h1>
-            <li><a href="{{ url_for('leaderboards.leaderboard') }}">Profile</a>
-            <li><a href="{{ url_for('leaderboards.leaderboard') }}">Settings</a>
-            <li><a href="{{ url_for('leaderboards.leaderboard') }}">LeaderBoards</a>
-            <li><a href="{{ url_for('leaderboards.leaderboard') }}">Quick Entry</a>
-            <li><a href="{{ url_for('leaderboards.leaderboard') }}">Log Out</a>
+<!-- https://getbootstrap.com/docs/4.0/components/navbar/ source -->
+<nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #235A33;">
+    <a class="navbar-brand" href="#">Quick Finance</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('homePages.homePage') }}">Home    </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('profiles.profile') }}">Profile </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/settings/index">Settings </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('leaderboards.leaderboard') }}">Leaderboards </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('quickEntry.quickEntry') }}">Quick Entry </a>
+            </li>
         </ul>
-      </div>
-    </nav>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Logout </a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
-
-    <section class="content">
-      <header>
+<section class="content">
+    <header>
         {% block header %}{% endblock %}
-      </header>
-      {% block content %}{% endblock %}
-    </section>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </header>
+    {% block content %}{% endblock %}
+</section>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
