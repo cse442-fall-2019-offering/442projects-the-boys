@@ -29,4 +29,20 @@ def create_app(test_config=None):
     def hello():
         return 'It would be extremely painful, for youuuu'
 
+    from . import leaderboards
+    app.register_blueprint(leaderboards.bp)
+
+    from . import homePage
+    app.register_blueprint(homePage.bp)
+
+
+    from . import settings
+    app.register_blueprint(settings.bp)
+
+    from . import profiles
+    app.register_blueprint(profiles.bp)
+
+    from . import quickEntry
+    app.register_blueprint(quickEntry.bp)
+
     return app
