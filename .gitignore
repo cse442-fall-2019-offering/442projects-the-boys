@@ -1,0 +1,4 @@
+
+/.idea/*
+proj/.idea/*
+proj/flaskr/__pycache__/*
