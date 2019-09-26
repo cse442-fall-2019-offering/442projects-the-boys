@@ -1,0 +1,6 @@
+.idea/
+venv/
+proj/.idea/
+proj/venv/
+*.DS_Store
+proj/flaskr/__pycache__/
