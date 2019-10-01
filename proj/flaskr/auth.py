@@ -9,6 +9,8 @@ from proj.flaskr.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+# https://flask.palletsprojects.com/en/1.1.x/tutorial/views/ Used some boilerplate code from here
+
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
