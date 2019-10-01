@@ -8,4 +8,6 @@ bp = Blueprint('quickEntry', __name__, url_prefix='/quick')
 
 @bp.route('/entry')
 def quickEntry():
+    if g.user is None:
+        return redirect(url_for("auth.login"))
     return render_template('quickEntry/default_entry.html')
