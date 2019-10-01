@@ -7,4 +7,6 @@ bp = Blueprint('profiles', __name__, url_prefix='/bio')
 
 @bp.route('/profile' , methods = ['GET', 'POST'])
 def profile():
+    if g.user is None:
+        return redirect(url_for("auth.login"))
     return render_template('profiles/profile.html')
