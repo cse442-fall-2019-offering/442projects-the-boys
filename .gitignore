@@ -4,3 +4,4 @@ proj/.idea/
 proj/venv/
 *.DS_Store
 proj/flaskr/__pycache__/
+proj/instance/flaskr.sqlite
