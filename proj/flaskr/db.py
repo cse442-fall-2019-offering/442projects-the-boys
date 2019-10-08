@@ -5,8 +5,10 @@ from flask.cli import with_appcontext
 
 import pymysql
 import flaskr.config
+
+
 class Database:
-    def __init__(self) :
+    def __init__(self):
         host = flaskr.config.host
         user = flaskr.config.user
         password = flaskr.config.password
@@ -15,16 +17,20 @@ class Database:
                                    DictCursor)
         self.cur = self.con.cursor()
 
-    def insert(self, statement) :
+    def insert(self, statement):
         return self.cur.execute(statement)
 
-
-    def select(self, statement) :
+    def select(self, statement):
         self.cur.execute(statement)
         result = self.cur.fetchone()
         return result
 
-    def close_db(self, e=None) :
+    def selectall(self, statement):
+        self.cur.execute(statement)
+        result = self.cur.fetchall()
+        return result
+
+    def close_db(self, e=None):
         db = g.pop('db', None)
         if db is not None:
             db.close()
