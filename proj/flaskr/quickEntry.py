@@ -1,11 +1,10 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
+import flaskr.db
 from werkzeug.exceptions import abort
 
 bp = Blueprint('quickEntry', __name__, url_prefix='/quick')
-
-import flaskr.db
 
 
 @bp.route('/entry', methods = ['GET', 'POST'])
@@ -15,12 +14,12 @@ def quickEntry():
 
     db = flaskr.db.Database()
 
-    #print(session.get('user_id'))
-    # expenses = db.selectall(
-    #
-    #     "SELECT * FROM expense WHERE author_id = '{}'".format(session.get('user_id'))
-    #
-    # )
+    print(session.get('user_id'))
+    expenses = db.selectall(
+
+        "SELECT * FROM expense WHERE author_id = '{}'".format(session.get('user_id'))
+
+    )
     if request.method == 'POST':
         title = request.form['title']
         cost = request.form['cost']
@@ -33,9 +32,9 @@ def quickEntry():
         if error is not None:
             flash(error)
         print(db.insert(
-            "INSERT INTO expense (title, cost, author_id) VALUES ('" + title + "', '" + str(cost) + "', '" + str(g.user['id']) +"')"
+            "INSERT INTO expense (title, cost, author_id) VALUES "
+            "('" + title + "', '" + str(cost) + "', '" + str(g.user['id']) +"')"
         ))
-        #print("INSERT INTO expense (title, cost, author_id) VALUES ('" + title + "', '" + str(cost) + "', '" + str(g.user['id']) +"')")
         return redirect(url_for('quickEntry.quickEntry'))
 
-    return render_template('quickEntry/default_entry.html')
+    return render_template('quickEntry/default_entry.html', expenses=expenses)

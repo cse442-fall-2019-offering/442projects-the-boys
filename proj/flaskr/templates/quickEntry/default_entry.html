@@ -5,25 +5,36 @@
 
 {% block content %}
 
-    <div class="login-form">
-        <form method="post">
-            <h2 class="text-center">Expense </h2>
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Expense" id="title" name="title" required="required">
-            </div>
-            <div class="form-group">
-                <input type="number" class="form-control" placeholder="Price" id="cost" name="cost" required="required">
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-outline-success btn-block">Add Expense</button>
-            </div>
-        </form>
-    </div>
+    <form method="post" class="container">
+        <h2 class="text-center">Expenses </h2>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Expense" id="title" name="title" required="required">
+        </div>
+        <div class="form-group">
+            <input type="number" class="form-control" placeholder="Price" id="cost" name="cost" required="required">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-outline-success btn-block">Add Expense</button>
+        </div>
+    </form>
+
 
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-            <h1 class="display-4">Tip of the day</h1>
-            <p class="lead">No tip for you</p>
+            <h1 style="margin-bottom:50px; margin-top:-55px;" class="display-2 text-center">Tip of the day</h1>
+            <p class="lead text-center">"If you want more money rob a bank"</p>
         </div>
+    </div>
+
+    <div class="list-group" style="margin-top:25px;">
+        {% for expense in expenses %}
+            <a href="#" class="list-group-item list-group-item-action list-group-item-success">
+                <div class="d-flex w-100 justify-content-between">
+                    <h4>{{ expense['title'] }}</h4>
+                    <small>{{ expense['created'] }}</small>
+                </div>
+                <p>${{ expense['cost'] }} per month</p>
+            </a>
+        {% endfor %}
     </div>
 {% endblock %}

@@ -29,17 +29,17 @@
 
 
     </div>
-    <div class="card" style="width: 30rem;margin: 0 auto; float: none; margin-bottom: 200px">
-        <div class="card-header"> Expenses </div>
-        <ul class="list-group list-group-flush">
-            {%  for expense in expenses %}
-                <li class="list-group-item">{{ expense['title'] }} -  {{ expense['cost'] }}</li>
-            {% endfor %}
-        </ul>
+    <div class="list-group" style="margin-top:-100px;">
+        {% for expense in expenses %}
+            <a href="#" class="list-group-item list-group-item-action list-group-item-success">
+                <div class="d-flex w-100 justify-content-between">
+                    <h4>{{ expense['title'] }}</h4>
+                    <small>{{ expense['created'] }}</small>
+                </div>
+                <p>${{ expense['cost'] }} per month</p>
+            </a>
+        {% endfor %}
     </div>
-    </div>
-    <p>
-    </p>
 
 
 {% endblock %}
