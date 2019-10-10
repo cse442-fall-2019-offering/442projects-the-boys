@@ -21,6 +21,7 @@ def quickEntry():
 
     )
     if request.method == 'POST':
+
         title = request.form['title']
         cost = request.form['cost']
         error = None
@@ -33,8 +34,25 @@ def quickEntry():
             flash(error)
         print(db.insert(
             "INSERT INTO expense (title, cost, author_id) VALUES "
-            "('" + title + "', '" + str(cost) + "', '" + str(g.user['id']) +"')"
+            "('" + title + "', '" + str(cost) + "', '" + str(g.user['id']) + "')"
         ))
         return redirect(url_for('quickEntry.quickEntry'))
 
     return render_template('quickEntry/default_entry.html', expenses=expenses)
+
+@bp.route('/delete/<expense_id>', methods = ['POST'])
+def deleteEntry(expense_id):
+    if g.user is None:
+        return redirect(url_for("auth.login"))
+
+    db = flaskr.db.Database()
+    if request.method == 'POST':
+        db.insert(
+            "DELETE FROM expense WHERE id = '{}'".format(expense_id)
+        )
+
+
+
+
+
+    return redirect(url_for('quickEntry.quickEntry'))

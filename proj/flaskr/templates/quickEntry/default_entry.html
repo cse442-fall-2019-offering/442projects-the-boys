@@ -27,6 +27,7 @@
     </div>
 
     <div class="list-group" style="margin-top:25px;">
+
         {% for expense in expenses %}
             <a href="#" class="list-group-item list-group-item-action list-group-item-success">
                 <div class="d-flex w-100 justify-content-between">
@@ -34,6 +35,11 @@
                     <small>{{ expense['created'] }}</small>
                 </div>
                 <p>${{ expense['cost'] }} per month</p>
+            <form action="{{ url_for('quickEntry.deleteEntry',expense_id=expense.id) }}" method="post">
+                <input type="submit" class="btn btn-danger" value="delete" >
+            </form>
+
+
             </a>
         {% endfor %}
     </div>
