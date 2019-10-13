@@ -36,10 +36,12 @@
                 </div>
                 <p>${{ expense['cost'] }} per month</p>
             <form action="{{ url_for('quickEntry.deleteEntry',expense_id=expense.id) }}" method="post">
-                <input type="submit" class="btn btn-danger" value="delete" >
+                <input type="submit" class="btn btn-danger" value="Delete" >
             </form>
 
-
+             <form action="{{ url_for('quickEntry.editExpense',expense_id=expense.id) }}" method="post">
+                <input type="submit" class="btn btn-outline-primary" value="Edit" >
+            </form>
             </a>
         {% endfor %}
     </div>
