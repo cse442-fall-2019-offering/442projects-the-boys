@@ -4,51 +4,45 @@
 {% endblock %}
 
 {% block content %}
-<form>
-  <div class="form-group row">
-    <label for="name" class="col-sm-2 col-form-label">Name of expense/gain</label>
-    <div class="col-sm-10">
-      <input type="name" class="form-control" id="name" placeholder="Name of expense/gain">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="number" class="col-sm-2 col-form-label">Price</label>
-    <div class="col-sm-10">
-      <input type="number" class="form-control" id="number" placeholder="Price">
-    </div>
-  </div>
-  <fieldset class="form-group">
-    <div class="row">
-      <legend class="col-form-label col-sm-2 pt-0">Type</legend>
-      <div class="col-sm-10">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-          <label class="form-check-label" for="gridRadios1">
-            Gain
-          </label>
+
+    <form method="post" class="container">
+        <h2 class="text-center">Expenses </h2>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Expense" id="title" name="title" required="required">
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-          <label class="form-check-label" for="gridRadios2">
-            Expense
-          </label>
+        <div class="form-group">
+            <input type="number" class="form-control" placeholder="Price" id="cost" name="cost" required="required">
         </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-outline-success btn-block">Add Expense</button>
+        </div>
+    </form>
 
-      </div>
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 style="margin-bottom:50px; margin-top:-55px;" class="display-2 text-center">Tip of the day</h1>
+            <p class="lead text-center">"If you want more money rob a bank"</p>
+        </div>
     </div>
-  </fieldset>
 
-  <div class="form-group row">
-    <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="list-group" style="margin-top:25px;">
+
+        {% for expense in expenses %}
+            <a href="#" class="list-group-item list-group-item-action list-group-item-success">
+                <div class="d-flex w-100 justify-content-between">
+                    <h4>{{ expense['title'] }}</h4>
+                    <small>{{ expense['created'] }}</small>
+                </div>
+                <p>${{ expense['cost'] }} per month</p>
+            <form action="{{ url_for('quickEntry.deleteEntry',expense_id=expense.id) }}" method="post">
+                <input type="submit" class="btn btn-danger" value="Delete" >
+            </form>
+
+             <form action="{{ url_for('quickEntry.editExpense',expense_id=expense.id) }}" method="post">
+                <input type="submit" class="btn btn-outline-primary" value="Edit" >
+            </form>
+            </a>
+        {% endfor %}
     </div>
-  </div>
-</form>
-
-<div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1 class="display-4">Tip of the day</h1>
-    <p class="lead">No tip for you</p>
-  </div>
-</div>
 {% endblock %}

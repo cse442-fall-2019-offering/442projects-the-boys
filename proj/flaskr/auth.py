@@ -5,7 +5,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from proj.flaskr.db import get_db
+import flaskr.db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -18,7 +18,7 @@ def register():
         username = request.form['username']
         password = request.form['password']
         confirm_password = request.form['confirmPass']
-        db = get_db()
+        db = flaskr.db.Database()
         error = None
 
         if not username:
@@ -27,17 +27,16 @@ def register():
             error = 'Password is required.'
         elif not password == confirm_password:
             error = 'Passwords do not match'
-        elif db.execute(
-            'SELECT id FROM user WHERE username = ?', (username,)
-        ).fetchone() is not None:
+        elif db.select(
+            "SELECT id FROM user WHERE username = '{}'".format(username)
+        ) is not None:
             error = 'User {} is already registered.'.format(username)
 
         if error is None:
-            db.execute(
-                'INSERT INTO user (username, password) VALUES (?, ?)',
-                (username, generate_password_hash(password))
+            db.insert(
+                "INSERT INTO user (username, password) VALUES ('"+username+"', '"+generate_password_hash(password)+"')"
             )
-            db.commit()
+            # come back to this; db.commit()
             return redirect(url_for('auth.login'))
 
         flash(error)
@@ -50,11 +49,11 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        db = get_db()
+        db = flaskr.db.Database()
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
+        user = db.select(
+            "SELECT * FROM user WHERE username = '{}'".format(username)
+        )
 
         if user is None:
             error = 'Incorrect username.'
@@ -78,9 +77,9 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
+        g.user = flaskr.db.Database().select(
+            "SELECT * FROM user WHERE id = '{}'".format(user_id)
+        )
 
 
 @bp.route('/logout')

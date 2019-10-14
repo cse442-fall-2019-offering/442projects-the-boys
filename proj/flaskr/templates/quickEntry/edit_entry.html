@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+
+    <form method="post" class="container">
+        <h2 class="text-center">Edit Expense </h2>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Expense" id="title" name="title" required="required">
+        </div>
+        <div class="form-group">
+            <input type="number" class="form-control" placeholder="Price" id="cost" name="cost" required="required">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-outline-success btn-block">Edit Expense</button>
+        </div>
+
+
+    </form>
+
+
+
+{% endblock %}
