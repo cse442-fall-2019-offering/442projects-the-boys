@@ -39,9 +39,10 @@
                 <input type="submit" class="btn btn-danger" value="Delete" >
             </form>
 
-             <form action="{{ url_for('quickEntry.editExpense',expense_id=expense.id) }}" method="post">
-                <input type="submit" class="btn btn-outline-primary" value="Edit" >
+             <form action="{{ url_for('quickEntry.editExpense',expense_id=expense.id,title=expense.title,cost=expense.cost) }}" method="post">
+                <input type="submit" class="btn btn-primary" value="Edit" >
             </form>
+
             </a>
         {% endfor %}
     </div>
