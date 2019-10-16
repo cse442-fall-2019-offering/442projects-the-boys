@@ -4,7 +4,15 @@ DROP TABLE IF EXISTS expense;
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL
+  password TEXT NOT NULL,
+  name TEXT NOT NULL,
+  occupation TEXT NOT NULL,
+  age INTEGER NOT NULL,
+  income INTEGER NOT NULL
+
+
+
+
 );
 
 CREATE TABLE expense (
