@@ -58,21 +58,21 @@ def deleteEntry(expense_id):
     return redirect(url_for('quickEntry.quickEntry'))
 #for edit expense button for each expense on quickEntry page
 #when clicked user is redirected to a new page where they can edit an expense
-@bp.route('/edit/<expense_id>',methods = ['GET','POST'])
-def editExpense(expense_id):
+@bp.route('/edit/<expense_id>/<title>/<cost>',methods = ['GET','POST'])
+def editExpense(expense_id,title,cost):
     if g.user is None:
         return redirect(url_for("auth.login"))
 
     if request.method == 'POST':
-       return redirect(url_for("quickEntry.finishEdit", expense_id=expense_id))
+       return redirect(url_for("quickEntry.finishEdit", expense_id=expense_id,expense_title=title,expense_cost=cost))
 
 
 
 
 #page for editing expense once edit expense button is clicked it updates the database
 
-@bp.route('finishEdit/<expense_id>',methods=['GET','POST'])
-def finishEdit(expense_id):
+@bp.route('finishEdit/<expense_id>/<expense_title>/<expense_cost>',methods=['GET','POST'])
+def finishEdit(expense_id,expense_title,expense_cost):
     if g.user is None:
         return redirect(url_for(("auth.login")))
     if request.method == 'POST':
@@ -92,4 +92,4 @@ def finishEdit(expense_id):
         )
         return redirect(url_for('quickEntry.quickEntry'))
 
-    return render_template('quickEntry/edit_entry.html')
+    return render_template('quickEntry/edit_entry.html',expense_title=expense_title,expense_cost=expense_cost)
