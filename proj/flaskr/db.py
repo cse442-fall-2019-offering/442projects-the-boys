@@ -21,7 +21,7 @@ class Database:
                                    DictCursor)
         self.cur = self.con.cursor()
 
-    def insert(self, statement) :
+    def insert(self, statement):
         res = self.cur.execute(statement)
         self.con.commit()
         return res

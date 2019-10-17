@@ -27,7 +27,6 @@ def profile():
         location = request.form['location']
         income = request.form['income']
         error = None
-
         if not name1:
             error = "Please enter your name!"
         if not occupation:
@@ -40,12 +39,11 @@ def profile():
             error = "Please enter an estimate of your income value!"
         if error is not None:
             flash(error)
-            db.insert("INSERT INTO user (name1) VALUES ('" + name1 + "')")
-
+        else:
+            db.insert(
+                "UPDATE user SET name1 = '{}' WHERE id='{}' ".format(name1, session.get('user_id'))
+            )
         return redirect(url_for('profiles.profile'))
-
-
-
 
     # Will list all of a users expenses
     return render_template('profiles/profile.html', expenses=expenses)
