@@ -43,6 +43,19 @@ def profile():
             db.insert(
                 "UPDATE user SET name1 = '{}' WHERE id='{}' ".format(name1, session.get('user_id'))
             )
+            db.insert(
+                "UPDATE user SET occupation = '{}' WHERE id='{}' ".format(occupation, session.get('user_id'))
+            )
+            db.insert(
+                "UPDATE user SET age = '{}' WHERE id='{}' ".format(age, session.get('user_id'))
+            )
+
+            db.insert(
+                "UPDATE user SET location = '{}' WHERE id='{}' ".format(location, session.get('user_id'))
+            )
+            db.insert(
+                "UPDATE user SET income = '{}' WHERE id='{}' ".format(income, session.get('user_id'))
+            )
         return redirect(url_for('profiles.profile'))
 
     # Will list all of a users expenses

@@ -85,18 +85,45 @@
 
 <div class="card" style="width: 30rem;margin: 0 auto; float: none; margin-bottom: 200px">
 
- {%  if g.user %}
-    <div class="card-header"> Name of the User </div>
- {% else %}
-    <div class="card-header"> Name of the User </div>
- {% endif %}
+
+
+
+
+  <div style="font-weight: bold", class="card-header", style ="text-align: center"  > {{ g.user['name1'] }} </div>
 
 
   <li class="list-group-item"> Username: {{ g.user['username'] }}</li>
-  <li class="list-group-item">Current Income: $75,000</li>
-  <li class="list-group-item">Money saved so far: $1,234</li>
-  <li class="list-group-item">Member from February 29th 2017</li>
-  <li class="list-group-item">Date of Birth: 2/29/1988</li>
+
+   {%  if g.user['income'] != None %}
+        <li class="list-group-item">Current Income: {{ g.user['income'] }}</li>
+   {%  else %}
+        <li class="list-group-item">User has not shared their income yet</li>
+   {%  endif %}
+
+
+   {%  if g.user['occupation'] != None %}
+        <li class="list-group-item">Occupation/Field: {{ g.user['occupation'] }}</li>
+   {%  else %}
+        <li class="list-group-item">User has not shared their occupation yet</li>
+   {%  endif %}
+
+
+
+   {%  if g.user['location'] != None %}
+        <li class="list-group-item">Location: {{ g.user['location'] }}</li>
+   {%  else %}
+        <li class="list-group-item">User has not shared their location yet</li>
+   {%  endif %}
+
+
+
+   {%  if g.user['age'] != None %}
+        <li class="list-group-item">Age: {{ g.user['age'] }}</li>
+   {%  else %}
+        <li class="list-group-item">User has not shared their age yet</li>
+   {%  endif %}
+
+
   <li class="list-group-item">Number of Badges Earned: 1</li>
 
   </ul>
