@@ -6,7 +6,7 @@ from werkzeug.exceptions import abort
 bp = Blueprint('profiles', __name__, url_prefix='/bio')
 
 
-@bp.route('/profile' , methods = ['GET', 'POST'])
+@bp.route('/profile', methods=['GET', 'POST'])
 def profile():
     if g.user is None:
         return redirect(url_for("auth.login"))
@@ -20,15 +20,15 @@ def profile():
 
     )
 
-    if request.method == 'Post':
-        name = request.form['fullName']
+    if request.method == 'POST':
+        name1 = request.form['fullname']
         occupation = request.form['occupation']
         age = request.form['age']
         location = request.form['location']
         income = request.form['income']
         error = None
 
-        if not name:
+        if not name1:
             error = "Please enter your name!"
         if not occupation:
             error = "Please enter your occupation or field!"
@@ -40,12 +40,9 @@ def profile():
             error = "Please enter an estimate of your income value!"
         if error is not None:
             flash(error)
+            db.insert("INSERT INTO user (name1) VALUES ('" + name1 + "')")
 
-        db.insert(
-            "INSERT INTO user (name, occupation, age, location, income ) VALUES ('"+name+"', '" + occupation + age +
-            location + income+"')"
-        )
-        return redirect(url_for('profile.profiles'))
+        return redirect(url_for('profiles.profile'))
 
 
 
