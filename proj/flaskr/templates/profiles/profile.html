@@ -31,7 +31,7 @@
     </div>
     <div class="list-group" style="margin-top:-100px;">
         {% for expense in expenses %}
-            <a href="{{ url_for('quickEntry.editExpense',expense_id=expense.id, category=expense.category, title=expense.title, cost=expense.cost, rate=expense.rate) }}" class="list-group-item list-group-item-action list-group-item-success">
+            <a href="#" class="list-group-item list-group-item-action list-group-item-success">
                 <div class="d-flex w-100 justify-content-between">
                     <h4>{{ expense['category'] }} - {{ expense['title'] }}</h4>
                     <small>{{ expense['created'] }}</small>
