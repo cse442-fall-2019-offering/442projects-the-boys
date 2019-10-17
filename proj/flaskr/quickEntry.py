@@ -17,34 +17,40 @@ def quickEntry():
     print(session.get('user_id'))
     expenses = db.selectall(
 
-        "SELECT * FROM expense WHERE author_id = '{}'".format(session.get('user_id'))
+        "SELECT * FROM expense WHERE author_id = '{}'"
+        "ORDER BY category, cost".format(session.get('user_id'))
 
     )
     if request.method == 'POST':
 
+        category = request.form['category']
         title = request.form['title']
         cost = request.form['cost']
+        rate = request.form['rate']
         error = None
 
+        if not title:
+            error = "Category required"
         if not title:
             error = "Expense name required"
         if not cost:
             error = "Cost required"
+        if not rate:
+            error = "Rate Required"
         if error is not None:
             flash(error)
         print(db.insert(
-            "INSERT INTO expense (title, cost, author_id) VALUES "
-            "('" + title + "', '" + str(cost) + "', '" + str(g.user['id']) + "')"
+            "INSERT INTO expense (title, cost, author_id, category, rate) VALUES "
+            "('" + title + "', '" + str(cost) + "', '" + str(g.user['id']) + "', '" + category + "', '" + rate + "')"
         ))
         return redirect(url_for('quickEntry.quickEntry'))
 
     return render_template('quickEntry/default_entry.html', expenses=expenses)
 
 
-
-#for delete button for each expense on the quickEntry page
-#when clicked it deletes the expense from the database
-@bp.route('/delete/<expense_id>', methods = ['POST'])
+# for delete button for each expense on the quickEntry page
+# when clicked it deletes the expense from the database
+@bp.route('/delete/<expense_id>', methods=['POST'])
 def deleteEntry(expense_id):
     if g.user is None:
         return redirect(url_for("auth.login"))
@@ -56,40 +62,51 @@ def deleteEntry(expense_id):
         )
 
     return redirect(url_for('quickEntry.quickEntry'))
-#for edit expense button for each expense on quickEntry page
-#when clicked user is redirected to a new page where they can edit an expense
-@bp.route('/edit/<expense_id>/<title>/<cost>',methods = ['GET','POST'])
-def editExpense(expense_id,title,cost):
+
+# for edit expense button for each expense on quickEntry page
+# when clicked user is redirected to a new page where they can edit an expense
+
+
+@bp.route('/edit/<expense_id>/<category>/<title>/<cost>/<rate>', methods = ['GET', 'POST'])
+def editExpense(expense_id, category, title, cost, rate):
     if g.user is None:
         return redirect(url_for("auth.login"))
 
     if request.method == 'POST':
-       return redirect(url_for("quickEntry.finishEdit", expense_id=expense_id,expense_title=title,expense_cost=cost))
+        return redirect(url_for("quickEntry.finishEdit", expense_id=expense_id, expense_category=category,
+                                expense_title=title, expense_cost=cost, expense_rate=rate))
 
 
+# page for editing expense once edit expense button is clicked it updates the database
 
-
-#page for editing expense once edit expense button is clicked it updates the database
-
-@bp.route('finishEdit/<expense_id>/<expense_title>/<expense_cost>',methods=['GET','POST'])
-def finishEdit(expense_id,expense_title,expense_cost):
+@bp.route('finishEdit/<expense_id>/<expense_category>/<expense_title>/<expense_cost>/<expense_rate>',
+          methods=['GET', 'POST'])
+def finishEdit(expense_id, expense_category, expense_title, expense_cost, expense_rate):
     if g.user is None:
-        return redirect(url_for(("auth.login")))
+        return redirect(url_for("auth.login"))
     if request.method == 'POST':
+        category = request.form['category']
         title = request.form['title']
         cost = request.form['cost']
+        rate = request.form['rate']
         error = None
 
+        if not category:
+            error = "Category Required"
         if not title:
             error = "Expense name required"
         if not cost:
             error = "Cost required"
+        if not rate:
+            error = "Rate required"
         if error is not None:
             flash(error)
         db = flaskr.db.Database()
         db.insert(
-            "UPDATE expense SET title = '{}' , cost= '{}' WHERE id='{}' ".format(title,cost,expense_id)
+            "UPDATE expense SET title = '{}' , cost= '{}' , category = '{}', rate = '{}' WHERE id='{}' "
+            .format(title, cost, category, rate, expense_id)
         )
         return redirect(url_for('quickEntry.quickEntry'))
 
-    return render_template('quickEntry/edit_entry.html',expense_title=expense_title,expense_cost=expense_cost)
+    return render_template('quickEntry/edit_entry.html', expense_category=expense_category, expense_title=expense_title,
+                           expense_cost=expense_cost, expense_rate=expense_rate)
