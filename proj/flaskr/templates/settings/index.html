@@ -13,10 +13,9 @@
                 <h3>Your Information</h3>
                  </div>
                      <ul class="list-group">
-                       <a href = "/settings/index"><li class="list-group-item active"  >Account settings</li></a>
-                       <a href = "/settings/addexpenses"><li class="list-group-item" >Add expenses</li></a>
-                       <a href = ""><li class="list-group-item">Other</li></a>
-                       <a href = ""><li class="list-group-item">Another</li></a>
+                       <a href = "{{ url_for('settings.settings') }}"><li class="list-group-item active"  >Account settings</li></a>
+                       <a href = "{{ url_for('profiles.profile') }}"><li class="list-group-item" >Profile</li></a>
+                       <a href = "{{ url_for('quickEntry.quickEntry') }}"><li class="list-group-item">Add Expenses</li></a>
                     </ul>
                  </div>
             </div>
