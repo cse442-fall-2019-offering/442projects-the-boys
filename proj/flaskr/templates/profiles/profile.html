@@ -33,10 +33,10 @@
         {% for expense in expenses %}
             <a href="#" class="list-group-item list-group-item-action list-group-item-success">
                 <div class="d-flex w-100 justify-content-between">
-                    <h4>{{ expense['title'] }}</h4>
+                    <h4>{{ expense['category'] }} - {{ expense['title'] }}</h4>
                     <small>{{ expense['created'] }}</small>
                 </div>
-                <p>${{ expense['cost'] }} per month</p>
+                <p>${{ expense['cost'] }} {{ expense['rate'] }}</p>
             </a>
         {% endfor %}
     </div>
