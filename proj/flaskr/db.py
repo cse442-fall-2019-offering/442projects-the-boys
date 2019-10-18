@@ -12,12 +12,16 @@ class Database:
         host = flaskr.config.host
         user = flaskr.config.user
         password = flaskr.config.password
+        #name = flaskr.config.name
+        # occupation = flaskr.config.occupation
+        # age = flaskr.config.occupation
+        # income = flaskr.config.income
         db = flaskr.config.db
         self.con = pymysql.connect(host=host, user=user, password=password, database=db, cursorclass=pymysql.cursors.
                                    DictCursor)
         self.cur = self.con.cursor()
 
-    def insert(self, statement) :
+    def insert(self, statement):
         res = self.cur.execute(statement)
         self.con.commit()
         return res
