@@ -49,23 +49,111 @@
             <p class="lead text-center">"If you want more money rob a bank"</p>
         </div>
     </div>
+      <div class = "card">
+        <div class = "card-header text-center">
+           Information
+        </div>
+        <div class = "row card-body">
+          <div class="card border-success mb-3 text-center col-md-4 offset-md-2 col-12" style="max-width: 18rem;">
+            <div class="card-header">Salary Information</div>
+            <div class="card-body text-info">
+              <h5 class="card-title">Average monthly income</h5>
+              <p class="card-text">${{user['income'] // 12}}</p>
+            </div>
+          </div>
+          <div class="card border-info mb-3 text-center col-md-4 offset-md-4 col-12" style="max-width: 18rem;">
+            <div class="card-header">Expense Information</div>
+            <div class="card-body text-info">
+              <h5 class="card-title">Average monthly expenses</h5>
+              <p class="card-text">${{total_expenses['total'] // 12}}</p>
+            </div>
+          </div>
+          <div class="card text-white text-center bg-success mb-3 col-md-5 offset-md-1 col-12">
+            <div class="card-header">Salary Breakdown</div>
+            <div class="card-body">
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td class = "font-weight-bold">Total income</td>
+                    <td>${{user['income']}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">Daily income</td>
+                    <td>${{user['income'] // 365}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">Weekly income</td>
+                    <td>${{user['income'] // 52}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">Monthly income</td>
+                    <td>${{user['income'] // 12}}</td>
+                  </tr>
 
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card text-white text-center bg-danger mb-3 col-md-5">
+            <div class="card-header">Expense Breakdown</div>
+            <div class="card-body">
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td class = "font-weight-bold">Total yearly expenses</td>
+                    <td>${{total_expenses['total']}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">Daily expenses</td>
+                    <td>${{total_expenses['daily']}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">Weekly expenses</td>
+                    <td>${{total_expenses['weekly']}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">Monthly expenses</td>
+                    <td>${{total_expenses['monthly']}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">Yearly expenses</td>
+                    <td>${{total_expenses['yearly']}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">One Time expenses</td>
+                    <td>${{total_expenses['oneTime']}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
     <div class="list-group" style="margin-top:25px;">
 
         {% for expense in expenses %}
             <a href="#" class="list-group-item list-group-item-action list-group-item-success">
-                <div class="d-flex w-100 justify-content-between">
-                    <h4>{{ expense['category'] }} - {{ expense['title'] }}</h4>
-                    <small>{{ expense['created'] }}</small>
+                <div class="row justify-content-between">
+                  <div class = "col-md-6 col-12">
+                    <h4 class = >{{ expense['category'] }} - {{ expense['title'] }}</h4>
+                    </div>
+                    <div class = "col-md-6 col-12 text-right">
+                    <small>Created {{ expense['timeago'] }}</small>
+                    </div>
                 </div>
                 <p>${{ expense['cost'] }} {{ expense['rate'] }}</p>
-                <form action="{{ url_for('quickEntry.deleteEntry',expense_id=expense.id) }}" method="post">
-                    <input type="submit" class="btn btn-danger" value="Delete" >
-                </form>
-
-                <form action="{{ url_for('quickEntry.editExpense',expense_id=expense.id, category=expense.category, title=expense.title, cost=expense.cost, rate=expense.rate) }}" method="post">
-                    <input type="submit" class="btn btn-primary" value="Edit" >
-                </form>
+                <div class = "row">
+                  <div class = "col-2">
+                  <form action="{{ url_for('quickEntry.deleteEntry',expense_id=expense.id) }}" method="post">
+                      <input type="submit" class="btn btn-block btn-danger" value="Delete" >
+                  </form>
+                  <form action="{{ url_for('quickEntry.editExpense',expense_id=expense.id, category=expense.category, title=expense.title, cost=expense.cost, rate=expense.rate) }}" method="post">
+                      <input type="submit" class="btn btn-block btn-primary" value="Edit" >
+                  </form>
+                  </div>
+                </div>
 
             </a>
         {% endfor %}
