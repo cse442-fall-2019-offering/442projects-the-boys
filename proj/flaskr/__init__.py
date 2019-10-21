@@ -34,7 +34,7 @@ def create_app(test_config=None):
 
     from . import homePage
     app.register_blueprint(homePage.bp)
-
+    app.add_url_rule('/', endpoint='homePage')
 
     from . import settings
     app.register_blueprint(settings.bp)
@@ -44,5 +44,11 @@ def create_app(test_config=None):
 
     from . import quickEntry
     app.register_blueprint(quickEntry.bp)
+
+    from . import db
+    db.init_app(app)
+
+    from . import auth
+    app.register_blueprint(auth.bp)
 
     return app

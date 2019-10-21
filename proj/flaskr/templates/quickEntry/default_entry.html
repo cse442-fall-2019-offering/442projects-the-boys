@@ -4,51 +4,158 @@
 {% endblock %}
 
 {% block content %}
-<form>
-  <div class="form-group row">
-    <label for="name" class="col-sm-2 col-form-label">Name of expense/gain</label>
-    <div class="col-sm-10">
-      <input type="name" class="form-control" id="name" placeholder="Name of expense/gain">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="number" class="col-sm-2 col-form-label">Price</label>
-    <div class="col-sm-10">
-      <input type="number" class="form-control" id="number" placeholder="Price">
-    </div>
-  </div>
-  <fieldset class="form-group">
-    <div class="row">
-      <legend class="col-form-label col-sm-2 pt-0">Type</legend>
-      <div class="col-sm-10">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-          <label class="form-check-label" for="gridRadios1">
-            Gain
-          </label>
+
+    <form method="post" class="container">
+        <h2 class="text-center">Expenses </h2>
+        <div class="form-group">
+            <select class="form-control" id="category" name="category" required="required">
+                <option selected disabled>Select a Category</option>
+                <option>Food</option>
+                <option>Medical</option>
+                <option>Other</option>
+                <option>Phone</option>
+                <option>Recreational</option>
+                <option>Rent / Mortgage</option>
+                <option>Utilities</option>
+                <option>Vehicle</option>
+            </select>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-          <label class="form-check-label" for="gridRadios2">
-            Expense
-          </label>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Expense" id="title" name="title" required="required">
+        </div>
+        <div class="form-group">
+            <input type="number" class="form-control" placeholder="Price" id="cost" name="cost" required="required">
         </div>
 
+        <div class="form-group">
+            <select class="form-control" id="rate" name="rate" required="required">
+                <option selected disabled>How Often?</option>
+                <option>One Time</option>
+                <option>Daily</option>
+                <option>Weekly</option>
+                <option>Monthly</option>
+                <option>Yearly</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-outline-success btn-block">Add Expense</button>
+        </div>
+    </form>
+
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 style="margin-bottom:50px; margin-top:-55px;" class="display-2 text-center">Tip of the day</h1>
+            <p class="lead text-center">"If you want more money rob a bank"</p>
+        </div>
+    </div>
+      <div class = "card">
+        <div class = "card-header text-center">
+           Information
+        </div>
+        <div class = "row card-body">
+          <div class="card border-success mb-3 text-center col-md-4 offset-md-2 col-12" style="max-width: 18rem;">
+            <div class="card-header">Salary Information</div>
+            <div class="card-body text-info">
+              <h5 class="card-title">Average monthly income</h5>
+              <p class="card-text">${{user['income'] // 12}}</p>
+            </div>
+          </div>
+          <div class="card border-info mb-3 text-center col-md-4 offset-md-4 col-12" style="max-width: 18rem;">
+            <div class="card-header">Expense Information</div>
+            <div class="card-body text-info">
+              <h5 class="card-title">Average monthly expenses</h5>
+              <p class="card-text">${{total_expenses['total'] // 12}}</p>
+            </div>
+          </div>
+          <div class="card text-white text-center bg-success mb-3 col-md-5 offset-md-1 col-12">
+            <div class="card-header">Salary Breakdown</div>
+            <div class="card-body">
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td class = "font-weight-bold">Total income</td>
+                    <td>${{user['income']}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">Daily income</td>
+                    <td>${{user['income'] // 365}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">Weekly income</td>
+                    <td>${{user['income'] // 52}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">Monthly income</td>
+                    <td>${{user['income'] // 12}}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card text-white text-center bg-danger mb-3 col-md-5">
+            <div class="card-header">Expense Breakdown</div>
+            <div class="card-body">
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td class = "font-weight-bold">Total yearly expenses</td>
+                    <td>${{total_expenses['total']}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">Daily expenses</td>
+                    <td>${{total_expenses['daily']}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">Weekly expenses</td>
+                    <td>${{total_expenses['weekly']}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">Monthly expenses</td>
+                    <td>${{total_expenses['monthly']}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">Yearly expenses</td>
+                    <td>${{total_expenses['yearly']}}</td>
+                  </tr>
+                  <tr>
+                    <td class = "font-weight-bold">One Time expenses</td>
+                    <td>${{total_expenses['oneTime']}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
       </div>
-    </div>
-  </fieldset>
+    <div class="list-group" style="margin-top:25px;">
 
-  <div class="form-group row">
-    <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-  </div>
-</form>
+        {% for expense in expenses %}
+            <a href="#" class="list-group-item list-group-item-action list-group-item-success">
+                <div class="row justify-content-between">
+                  <div class = "col-md-6 col-12">
+                    <h4 class = >{{ expense['category'] }} - {{ expense['title'] }}</h4>
+                    </div>
+                    <div class = "col-md-6 col-12 text-right">
+                    <small>Created {{ expense['timeago'] }}</small>
+                    </div>
+                </div>
+                <p>${{ expense['cost'] }} {{ expense['rate'] }}</p>
+                <div class = "row">
+                  <div class = "col-2">
+                  <form action="{{ url_for('quickEntry.deleteEntry',expense_id=expense.id) }}" method="post">
+                      <input type="submit" class="btn btn-block btn-danger" value="Delete" >
+                  </form>
+                  <form action="{{ url_for('quickEntry.editExpense',expense_id=expense.id, category=expense.category, title=expense.title, cost=expense.cost, rate=expense.rate) }}" method="post">
+                      <input type="submit" class="btn btn-block btn-primary" value="Edit" >
+                  </form>
+                  </div>
+                </div>
 
-<div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1 class="display-4">Tip of the day</h1>
-    <p class="lead">No tip for you</p>
-  </div>
-</div>
+            </a>
+        {% endfor %}
+    </div>
 {% endblock %}

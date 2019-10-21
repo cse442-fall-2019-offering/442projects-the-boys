@@ -2,9 +2,9 @@ from flask import (Blueprint, flash, g, redirect, render_template, request, url_
 
 from werkzeug.exceptions import abort
 
-bp = Blueprint('homePages', __name__, url_prefix='/start')
+bp = Blueprint('homePages', __name__)
 
 
-@bp.route('/home')
+@bp.route('/')
 def homePage():
     return render_template('homePages/homePage.html')

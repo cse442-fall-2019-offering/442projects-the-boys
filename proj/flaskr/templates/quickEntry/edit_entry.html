@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+
+    <form method="post" class="container">
+        <h2 class="text-center">Edit Expense </h2>
+        <div class="form-group">
+            <select class="form-control" id="category" name="category" required="required">
+                <option selected disabled>Select a Category</option>
+                <option>Food</option>
+                <option>Medical</option>
+                <option>Other</option>
+                <option>Phone</option>
+                <option>Recreational</option>
+                <option>Rent / Mortgage</option>
+                <option>Utilities</option>
+                <option>Vehicle</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" value="{{expense_title}}" id="title" name="title" required="required">
+        </div>
+        <div class="form-group">
+            <input type="number" class="form-control" value = "{{ expense_cost }}" id="cost" name="cost" required="required">
+        </div>
+        <div class="form-group">
+            <select class="form-control" id="rate" name="rate" required="required">
+                <option selected disabled>How Often?</option>
+                <option>One Time</option>
+                <option>Daily</option>
+                <option>Weekly</option>
+                <option>Monthly</option>
+                <option>Yearly</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-outline-success btn-block">Save</button>
+        </div>
+
+
+    </form>
+
+
+
+{% endblock %}
