@@ -3,6 +3,8 @@ from flask import (
 )
 import flaskr.db
 import datetime
+import random
+
 
 from werkzeug.exceptions import abort
 
@@ -17,6 +19,14 @@ def quickEntry():
     db = flaskr.db.Database()
 
     print(session.get('user_id'))
+    #random number for tip gen range should correspond to the range of tip_ids in database 
+    randId = random.randint(1,2)
+    #gets a random tip
+    tips = db.select(
+        "SELECT * FROM tips WHERE tip_id = '{}'".format(randId)
+    )
+
+
     expenses = db.selectall(
 
         "SELECT * FROM expense WHERE author_id = '{}'"
@@ -82,7 +92,7 @@ def quickEntry():
         return redirect(url_for('quickEntry.quickEntry'))
     if user[0]['income'] is None :
         user[0]['income'] = 0
-    return render_template('quickEntry/default_entry.html', expenses=expenses, total_expenses=total_expenses, user=user[0])
+    return render_template('quickEntry/default_entry.html', expenses=expenses, total_expenses=total_expenses, user=user[0],tips = tips)
 
 
 # for delete button for each expense on the quickEntry page
