@@ -20,7 +20,7 @@ def quickEntry():
 
     print(session.get('user_id'))
     #random number for tip gen range should correspond to the range of tip_ids in database 
-    randId = random.randint(1,9)
+    randId = random.randint(1, 9)
     #gets a random tip
     tips = db.select(
         "SELECT * FROM tips WHERE tip_id = '{}'".format(randId)
@@ -90,7 +90,7 @@ def quickEntry():
             "('" + title + "', '" + str(cost) + "', '" + str(g.user['id']) + "', '" + category + "', '" + rate + "')"
         ))
         return redirect(url_for('quickEntry.quickEntry'))
-    if user[0]['income'] is None :
+    if user[0]['income'] is None:
         user[0]['income'] = 0
     return render_template('quickEntry/default_entry.html', expenses=expenses, total_expenses=total_expenses, user=user[0],tips = tips)
 
