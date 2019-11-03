@@ -15,6 +15,8 @@ def profile():
     db = flaskr.db.Database()
 
     print(session.get('user_id'))
+
+
     expenses = db.selectall(
 
         "SELECT * FROM expense WHERE author_id = '{}'"
@@ -25,6 +27,9 @@ def profile():
 
         "SELECT * FROM user WHERE id = '{}'".format(session.get('user_id'))
 
+    )
+    friends = db.selectall(
+        "SELECT * FROM friends WHERE friend_id= '{}'".format(session.get('user_id'))
     )
 
     now = datetime.datetime.now()
@@ -57,6 +62,10 @@ def profile():
 
 
     total_expenses['total'] = total_expenses['daily'] * 365 + total_expenses['weekly'] * 52 + total_expenses['monthly'] * 12 + total_expenses['yearly'] + total_expenses['oneTime']
+
+
+
+
 
 
     if request.method == 'POST':
@@ -97,7 +106,58 @@ def profile():
             )
         return redirect(url_for('profiles.profile'))
 
+
+
     # Will list all of a users expenses
     if user[0]['income'] is None :
         user[0]['income'] = 0
-    return render_template('profiles/profile.html', expenses=expenses,total_expenses=total_expenses, user=user[0])
+
+
+    return render_template('profiles/profile.html', expenses=expenses,total_expenses=total_expenses, user=user[0],friends=friends)
+
+@bp.route('/startAddFriends', methods=['POST','GET'])
+def startAddFriends():
+    return redirect(url_for('profiles.addFriends'))
+
+@bp.route('/addFriends',methods=['POST','GET'])
+def addFriends():
+    if request.method == 'POST':
+        username = request.form['username']
+        db = flaskr.db.Database()
+        name = None
+
+        name = db.select(
+            "SELECT * FROM user WHERE username='{}'".format(username)
+        )
+        id = None
+        if name is not None:
+            id =   db.select(
+                "SELECT friend_id FROM friends WHERE friend_id = '{}' AND user_name='{}'".format(session.get('user_id'),username)
+            )
+            if id is None:
+                db.insert(
+                    "INSERT INTO friends VALUES ( '{}' , '{}' , '{}' , '{}')".format(name['username'],
+                                                                                     session.get('user_id'),
+                                                                                     name['occupation'],
+                                                                                     name['location'])
+
+                )
+                return redirect(url_for('profiles.profile'))
+
+            flash(id)
+
+            if id['friend_id'] != session.get('user_id'):
+                db.insert(
+                "INSERT INTO friends VALUES ( '{}' , '{}' , '{}' , '{}')".format(name['username'],session.get('user_id'),name['occupation'],name['location'])
+
+                )
+            else:
+                err = "already friends"
+                flash(err)
+                return redirect(url_for('profiles.addFriends'))
+        else:
+            name = "UserName not found"
+            flash(name)
+            return redirect(url_for('profiles.addFriends'))
+        return redirect(url_for('profiles.profile'))
+    return render_template('profiles/addFriends.html')
