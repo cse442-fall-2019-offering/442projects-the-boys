@@ -6,7 +6,23 @@
 
 {% block content %}
 
-    <img src="/static/hi.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+
+
+{#    {%  if g.user['income'] != None %}#}
+{#        <li class="list-group-item">Current Income: {{ g.user['income'] }}</li>#}
+{#   {%  else %}#}
+{#        <li class="list-group-item">User has not shared their income yet</li>#}
+{#   {%  endif %}#}
+
+
+    {% if g.user['photo'] != None %}
+         <img src={g.user['photo'] } style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+        
+
+    {% else %}
+        <img src="/static/hi.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+
+    {% endif %}
     <p>
 
 
@@ -38,7 +54,9 @@
                 <div class="modal-body">
 
 
+
                     <form method="post">
+
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label" >Name:</label>
                             <input placeholder="Ex: John Smith" type="text" class="form-control" id="fullname" name="fullname" required="required" type = "text">
@@ -62,10 +80,22 @@
                             <label for="recipient-name" class="col-form-label">Income Estimate:</label>
                             <input type="number" placeholder="Enter an estimate of your salary" class="form-control" id="recipient-name" name="income" required="required">
                         </div>
+
+
+                        <div class="form-group">
+                             <label for="recipient-name" class="col-form-label">Select a profile photo:</label>
+                            <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="customFile" name="photo">
+                            <label class="custom-file-label" for="customFile">Select a Profile Photo</label>
+                            </div>
+                        </div>
+
                         <div class = "form-group">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary" style="background-color: #4CAF50">Update Information</button>
                         </div>
+
+
 
 
                     </form>

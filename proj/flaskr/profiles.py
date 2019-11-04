@@ -65,6 +65,7 @@ def profile():
         age = request.form['age']
         location = request.form['location']
         income = request.form['income']
+        photo = request.form['photo']
         error = None
         if not name1:
             error = "Please enter your name!"
@@ -94,6 +95,10 @@ def profile():
             )
             db.insert(
                 "UPDATE user SET income = '{}' WHERE id='{}' ".format(income, session.get('user_id'))
+            )
+
+            db.insert(
+                "UPDATE user SET photo = '{}' WHERE id='{}' ".format(photo, session.get('user_id'))
             )
         return redirect(url_for('profiles.profile'))
 
