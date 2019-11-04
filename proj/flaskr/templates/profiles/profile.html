@@ -9,9 +9,7 @@
 
 
     <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-   View Friends
-</button>
+
 
 <!-- Modal -->
 
@@ -19,7 +17,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Friends</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -27,7 +25,7 @@
       <div class="modal-body">
         {% for friend in friends %}
             <div class="row">
-      <div class="col-md-12">Username : {{ friend['user_name'] }}      Field : {{ friend['Field'] }}      Location : {{ friend['Location'] }}</div>
+      <div class="col-md-12">Username : {{ friend['user_name'] }},   Field : {{ friend['Field'] }},      Location : {{ friend['Location'] }}</div>
       <div class="col-md-12 ml-auto"></div>
     </div>
 
@@ -51,15 +49,26 @@
 
 
 </p>
-
+    <div class="row">
+  <div class="col-md-12 text-center">
+    <form action="{{ url_for('profiles.startAddFriends') }}" method="post" class="container">
+<div class="btn-group" role="group" aria-label="Basic example">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+   View Friends
+</button>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="display: block; margin-left: auto;margin-right: auto; background-color: #4CAF50; ">Update Information</button>
 
 
+<button type="submit" class="btn btn-secondary" value="Add Friends">Add Friends</button>
+
+</div>
+
+</form>
+    </div>
+</div>
 
 <p>
-<form action="{{ url_for('profiles.startAddFriends') }}" method="post" class="container">
-<button type="submit" class="btn-primary" value="Add Friends">Add Friends</button>
-</form>
+
 
 </p>
 
