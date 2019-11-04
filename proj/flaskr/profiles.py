@@ -75,6 +75,11 @@ def profile():
         location = request.form['location']
         income = request.form['income']
         error = None
+        try:
+            request.form['anonymous']
+            anonymous = 1
+        except :
+            anonymous = 0
         if not name1:
             error = "Please enter your name!"
         if not occupation:
@@ -103,6 +108,9 @@ def profile():
             )
             db.insert(
                 "UPDATE user SET income = '{}' WHERE id='{}' ".format(income, session.get('user_id'))
+            )
+            db.insert(
+                "UPDATE user SET anonymous = '{}' WHERE id='{}' ".format(anonymous, session.get('user_id'))
             )
         return redirect(url_for('profiles.profile'))
 
