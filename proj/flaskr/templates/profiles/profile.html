@@ -6,17 +6,69 @@
 
 {% block content %}
 
+
+
+    <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Friends</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% for friend in friends %}
+            <div class="row">
+      <div class="col-md-12">Username : {{ friend['user_name'] }},   Field : {{ friend['Field'] }},      Location : {{ friend['Location'] }}</div>
+      <div class="col-md-12 ml-auto"></div>
+    </div>
+
+
+
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
     <img src="/static/hi.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
     <p>
 
 
 
 </p>
-
+    <div class="row">
+  <div class="col-md-12 text-center">
+    <form action="{{ url_for('profiles.startAddFriends') }}" method="post" class="container">
+<div class="btn-group" role="group" aria-label="Basic example">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+   View Friends
+</button>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="display: block; margin-left: auto;margin-right: auto; background-color: #4CAF50; ">Update Information</button>
 
 
+<button type="submit" class="btn btn-secondary" value="Add Friends">Add Friends</button>
+
+</div>
+
+</form>
+    </div>
+</div>
+
 <p>
+
 
 </p>
 

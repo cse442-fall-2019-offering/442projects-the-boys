@@ -1,0 +1,27 @@
+
+{% extends 'base.html' %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Add Friends</title>
+</head>
+<body>
+
+<form  method="post" class="container">
+        <h2 class="text-center">Add Friends </h2>
+
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Enter a friends username to add" id="username" name="username" required="required">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-outline-success btn-block">Add friend</button>
+        </div>
+
+</body>
+
+{% endblock %}
