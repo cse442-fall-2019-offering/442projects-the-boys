@@ -24,10 +24,12 @@
       </div>
       <div class="modal-body">
         {% for friend in friends %}
-            <div class="row">
-      <div class="col-md-12">Username : {{ friend['user_name'] }},   Field : {{ friend['Field'] }},      Location : {{ friend['Location'] }}</div>
-      <div class="col-md-12 ml-auto"></div>
-    </div>
+        <a  class="list-group-item  list-group-item-info">
+            <h4> {{ friend['user_name'] }}</h4>
+            <p> {{ friend['Field'] }}, {{ friend['Location'] }}</p>
+
+        </a>
+
 
 
 
