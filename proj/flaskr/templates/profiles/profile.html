@@ -24,9 +24,9 @@
       </div>
       <div class="modal-body">
         {% for friend in friends %}
-        <a  class="list-group-item  list-group-item-info">
+        <a href="{{ url_for('profiles.startViewFriend' , username=friend.user_name,field=friend.field,location=friend.location,name=friend.name,age=friend.age,income=friend.income,anon=friend.anon)}}"  class="list-group-item  list-group-item-info">
             <h4> {{ friend['user_name'] }}</h4>
-            <p> {{ friend['Field'] }}, {{ friend['Location'] }}</p>
+            <p> {{ friend['field'] }}, {{ friend['location'] }}</p>
 
         </a>
 

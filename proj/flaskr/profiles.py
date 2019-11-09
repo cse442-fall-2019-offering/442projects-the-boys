@@ -144,10 +144,12 @@ def addFriends():
             )
             if id is None:
                 db.insert(
-                    "INSERT INTO friends VALUES ( '{}' , '{}' , '{}' , '{}')".format(name['username'],
+                    "INSERT INTO friends VALUES ( '{}' , '{}' , '{}' , '{}' , '{}' , '{}' , '{}','{}' )".format(name['username'],
                                                                                      session.get('user_id'),
                                                                                      name['occupation'],
-                                                                                     name['location'])
+                                                                                     name['location'],
+                                                                                        name['name1'],
+                                                                                        name['age'], name['income'] , name['anonymous'])
 
                 )
                 return redirect(url_for('profiles.profile'))
@@ -156,7 +158,7 @@ def addFriends():
 
             if id['friend_id'] != session.get('user_id'):
                 db.insert(
-                "INSERT INTO friends VALUES ( '{}' , '{}' , '{}' , '{}')".format(name['username'],session.get('user_id'),name['occupation'],name['location'])
+                "INSERT INTO friends VALUES ( '{}' , '{}' , '{}' , '{}' , '{}' , '{}', '{}','{}')".format(name['username'],session.get('user_id'),name['occupation'],name['location'],name['name1'], name['age'], name['income'],name['anonymous'])
 
                 )
             else:
@@ -169,3 +171,14 @@ def addFriends():
             return redirect(url_for('profiles.addFriends'))
         return redirect(url_for('profiles.profile'))
     return render_template('profiles/addFriends.html')
+
+
+@bp.route('/startViewFriend/<username>/<field>/<location>/<name>/<age>/<income>/<anon>',methods=['POST','GET'])
+def startViewFriend(username, field, location, name , age , income, anon):
+
+    return redirect(url_for('profiles.viewFriend',username=username , field=field, location=location,name=name,age=age,income=income,anon=anon))
+
+@bp.route('/viewFriend/<username>/<field>/<location>/<name>/<age>/<income>/<anon>',methods=['POST','GET'])
+def viewFriend(username, field, location, name , age , income, anon):
+
+    return render_template('profiles/viewFriend.html', username=username , field=field, location=location,name=name,age=age,income=income,anon=anon )
