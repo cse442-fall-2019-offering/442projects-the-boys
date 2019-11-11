@@ -1,0 +1,70 @@
+
+{% extends 'base.html' %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block content %}
+<img src="/static/hi.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+    <p>
+
+
+
+</p>
+
+
+
+
+
+
+  <div style="font-weight: bold", class="card-header", style ="text-align: center"  >{%  if  '1'  == anon %}Anonymous User{%  else %} {{ name }}{%  endif %}</div>
+
+  {%  if '1' != anon %}
+    <li class="list-group-item"> Username: {{ name }}</li>
+
+     {%  if  income  != None %}
+          <li class="list-group-item">Current Income: {{ income }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their income yet</li>
+     {%  endif %}
+
+
+     {%  if field  != None %}
+          <li class="list-group-item">Occupation/Field: {{ field }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their occupation yet</li>
+     {%  endif %}
+
+
+
+     {%  if  location  != None %}
+          <li class="list-group-item">Location: {{ location }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their location yet</li>
+     {%  endif %}
+
+
+
+     {%  if age != None %}
+          <li class="list-group-item">Age: {{ age }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their age yet</li>
+     {%  endif %}
+   {%  else %}
+    <li class="list-group-item">This user is anonymous</li>
+   {%  endif %}
+  <li class="list-group-item">Number of Badges Earned: 1</li>
+
+  </ul>
+  <img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
+
+
+    </p>
+
+    <p>
+
+
+    </p>
+{% endblock %}
+

@@ -6,17 +6,71 @@
 
 {% block content %}
 
+
+
+    <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Friends</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% for friend in friends %}
+        <a href="{{ url_for('profiles.startViewFriend' , username=friend.user_name,field=friend.field,location=friend.location,name=friend.name,age=friend.age,income=friend.income,anon=friend.anon)}}"  class="list-group-item  list-group-item-info">
+            <h4> {{ friend['user_name'] }}</h4>
+            <p> {{ friend['field'] }}, {{ friend['location'] }}</p>
+
+        </a>
+
+
+
+
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
     <img src="/static/hi.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
     <p>
 
 
 
 </p>
-
+    <div class="row">
+  <div class="col-md-12 text-center">
+    <form action="{{ url_for('profiles.startAddFriends') }}" method="post" class="container">
+<div class="btn-group" role="group" aria-label="Basic example">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+   View Friends
+</button>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="display: block; margin-left: auto;margin-right: auto; background-color: #4CAF50; ">Update Information</button>
 
 
+<button type="submit" class="btn btn-secondary" value="Add Friends">Add Friends</button>
+
+</div>
+
+</form>
+    </div>
+</div>
+
 <p>
+
 
 </p>
 
@@ -41,26 +95,31 @@
                     <form method="post">
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label" >Name:</label>
-                            <input placeholder="Ex: John Smith" type="text" class="form-control" id="fullname" name="fullname" required="required" type = "text">
+                            <input placeholder="Ex: John Smith" value = "{{g.user['name1']}}" type="text" class="form-control" id="fullname" name="fullname" required="required" type = "text">
                         </div>
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Occupation:</label>
-                            <input type="text" placeholder="Ex: Engineer, Salesman, Conman " class="form-control" id="recipient-name" name="occupation" required="required">
+                            <input type="text" placeholder="Ex: Engineer, Salesman, Conman " value="{{g.user['occupation']}}" class="form-control" id="recipient-name" name="occupation" required="required">
                         </div>
 
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Age:</label>
-                            <input type="number" placeholder="Ex: 18, 19, 36" class="form-control" id="recipient-name" name="age" required="required">
+                            <input type="number" placeholder="Ex: 18, 19, 36" class="form-control" value="{{g.user['age']}}" id="recipient-name" name="age" required="required">
                         </div>
 
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Location</label>
-                            <input type="text" placeholder="Ex: Area 51, Buffalo, London" class="form-control" id="recipient-name" name="location" required="required">
+                            <input type="text" placeholder="Ex: Area 51, Buffalo, London" value="{{g.user['location']}}" class="form-control" id="recipient-name" name="location" required="required">
                         </div>
 
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Income Estimate:</label>
-                            <input type="number" placeholder="Enter an estimate of your salary" class="form-control" id="recipient-name" name="income" required="required">
+                            <input type="number" placeholder="Enter an estimate of your salary" value="{{g.user['income']}}" class="form-control" id="recipient-name" name="income" required="required">
+                        </div>
+                        <div class="form-check">
+                          <input type="checkbox"  id="recipient-anonymous"  name="anonymous" {%  if g.user['anonymous']  %}checked{%  endif %}>
+
+                          <label class="form-check-label" for="recipient-anonymous">Remain Anonymous?</label>
                         </div>
                         <div class = "form-group">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -91,41 +150,42 @@
 
 
 
-  <div style="font-weight: bold", class="card-header", style ="text-align: center"  > {{ g.user['name1'] }} </div>
+  <div style="font-weight: bold", class="card-header", style ="text-align: center"  >{%  if g.user['anonymous'] == 1 %}Anonymous User{%  else %} {{ g.user['name1'] }}{%  endif %}</div>
+
+  {%  if g.user['anonymous'] != 1 %}
+    <li class="list-group-item"> Username: {{ g.user['username'] }}</li>
+
+     {%  if g.user['income'] != None %}
+          <li class="list-group-item">Current Income: {{ g.user['income'] }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their income yet</li>
+     {%  endif %}
 
 
-  <li class="list-group-item"> Username: {{ g.user['username'] }}</li>
+     {%  if g.user['occupation'] != None %}
+          <li class="list-group-item">Occupation/Field: {{ g.user['occupation'] }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their occupation yet</li>
+     {%  endif %}
 
-   {%  if g.user['income'] != None %}
-        <li class="list-group-item">Current Income: {{ g.user['income'] }}</li>
+
+
+     {%  if g.user['location'] != None %}
+          <li class="list-group-item">Location: {{ g.user['location'] }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their location yet</li>
+     {%  endif %}
+
+
+
+     {%  if g.user['age'] != None %}
+          <li class="list-group-item">Age: {{ g.user['age'] }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their age yet</li>
+     {%  endif %}
    {%  else %}
-        <li class="list-group-item">User has not shared their income yet</li>
+    <li class="list-group-item">This user is anonymous</li>
    {%  endif %}
-
-
-   {%  if g.user['occupation'] != None %}
-        <li class="list-group-item">Occupation/Field: {{ g.user['occupation'] }}</li>
-   {%  else %}
-        <li class="list-group-item">User has not shared their occupation yet</li>
-   {%  endif %}
-
-
-
-   {%  if g.user['location'] != None %}
-        <li class="list-group-item">Location: {{ g.user['location'] }}</li>
-   {%  else %}
-        <li class="list-group-item">User has not shared their location yet</li>
-   {%  endif %}
-
-
-
-   {%  if g.user['age'] != None %}
-        <li class="list-group-item">Age: {{ g.user['age'] }}</li>
-   {%  else %}
-        <li class="list-group-item">User has not shared their age yet</li>
-   {%  endif %}
-
-
   <li class="list-group-item">Number of Badges Earned: 1</li>
 
   </ul>

@@ -19,8 +19,10 @@ def quickEntry():
     db = flaskr.db.Database()
 
     print(session.get('user_id'))
+
     #random number for tip gen range should correspond to the range of tip_ids in database 
     randId = random.randint(1, 9)
+
     #gets a random tip
     tips = db.select(
         "SELECT * FROM tips WHERE tip_id = '{}'".format(randId)
