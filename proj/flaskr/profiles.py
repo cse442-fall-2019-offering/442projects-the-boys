@@ -31,6 +31,7 @@ def profile():
     friends = db.selectall(
         "SELECT * FROM friends WHERE friend_id= '{}'".format(session.get('user_id'))
     )
+    numFriends= len(friends)
 
     now = datetime.datetime.now()
     total_expenses = { "daily": 0, "weekly": 0, "monthly": 0, "yearly": 0, "oneTime": 0, "total": 0 }
@@ -121,7 +122,7 @@ def profile():
         user[0]['income'] = 0
 
 
-    return render_template('profiles/profile.html', expenses=expenses,total_expenses=total_expenses, user=user[0],friends=friends)
+    return render_template('profiles/profile.html', expenses=expenses,total_expenses=total_expenses, user=user[0],friends=friends,numFriends=numFriends)
 
 @bp.route('/startAddFriends', methods=['POST','GET'])
 def startAddFriends():
