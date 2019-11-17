@@ -19,17 +19,17 @@ def leaderboard():
         print(friendFilter)
         if friendFilter:
             if criteria == "username":
-                criteria = "user_name"
+                criteria = "friends.user_name"
             elif criteria == "income":
-                criteria = "income"
+                criteria = "friends.income"
             elif criteria == "occupation":
-                criteria = "field"
+                criteria = "friends.field"
             elif criteria == "location":
-                criteria = "location"
+                criteria = "friends.location"
             print("SELECT * FROM friends WHERE friend_id = {}"
                 " ORDER BY {}".format(session.get('user_id'), criteria))
             peoples = db.selectall(
-                "SELECT * FROM friends WHERE friend_id = {}"
+                "SELECT * FROM friends INNER JOIN user ON user.id=friends.user_id WHERE friend_id = {}"
                 " ORDER BY {}".format(session.get('user_id'), criteria)
             )
             print(peoples)

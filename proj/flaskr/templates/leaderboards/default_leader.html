@@ -33,7 +33,7 @@
 
         {% for person in people %}
             <tr>
-                <td>{{ person['username'] }}</td>
+                <td>{%  if person['anonymous'] == 1 %}Anonymous User{%  else %}{{ person['username'] }}  {%  endif %}</td>
                 <td>${{ person['income'] }}</td>
                 <td>{{ person['occupation'] }}</td>
                 <td>{{ person['location'] }}</td>
