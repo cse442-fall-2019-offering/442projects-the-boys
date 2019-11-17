@@ -60,49 +60,115 @@
   <img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
 
 
-  <div class = "row">
-    <div class = "col-md-6 col-lg-6 col-12">
+  <div class = "row mt-5">
+    <div class = "col-md-4 col-lg-4 col-12">
       <canvas id="chDonut1"></canvas>
-      </div>
+    </div>
+    <div class = "col-md-4 col-lg-4 col-12">
+      <canvas id="chPie1"></canvas>
+    </div>
+    <div class = "col-md-4 col-lg-4 col-12">
+      <canvas id="barchart"></canvas>
+    </div>
   </div>
-    <script>
-      var date = new Date();
-      const month = date.toLocaleString('default', { month: 'long' });
-      var colors = ['red','green'];
-      /* 3 donut charts */
-      var donutOptions = {
-        responsive: true,
-        title: {
-            display: true,
-            text: month +" Spending",
-            fontSize: 18,
-            fontColor: "#111"
-          },
-          legend: {
-            position: "bottom",
-            labels: {
-              fontColor: "#333",
-              fontSize: 16
-            }
+  <script>
+    var date = new Date();
+    const month = date.toLocaleString('default', { month: 'long' });
+    var colors = ['red','green', 'blue'];
+    /* 3 donut charts */
+    var donutOptions = {
+      responsive: true,
+      title: {
+          display: true,
+          text: month +" Spending",
+          fontSize: 18,
+          fontColor: "#111"
+        },
+        legend: {
+          position: "bottom",
+          labels: {
+            fontColor: "#333",
+            fontSize: 16
           }
-      };
-      var chDonutData1 = {
-      labels: ['Spent', 'Left'],
-      datasets: [
-        {
-          backgroundColor: colors.slice(0,2),
-          borderWidth: [1, 1, 1, 1, 1],
-          data: [{{ infographics[0] }}, {{infographics[1]}}]
         }
-      ]
-  };
-      var chDonut1 = document.getElementById("chDonut1");
-      if (chDonut1) {
-        new Chart(chDonut1, {
-            type: 'doughnut',
-            data: chDonutData1,
-            options: donutOptions
-        });
+    };
+    var chDonutData1 = {
+    labels: ['Spent', 'Left'],
+    datasets: [
+      {
+        backgroundColor: colors.slice(0,2),
+        borderWidth: [1, 1, 1, 1, 1],
+        data: [{{ infographics[0] }}, {{infographics[1]}}]
       }
+    ]
+};
+    var chDonut1 = document.getElementById("chDonut1");
+    if (chDonut1) {
+      new Chart(chDonut1, {
+          type: 'doughnut',
+          data: chDonutData1,
+          options: donutOptions
+      });
+    }
+
+    var pieOptions = {
+      responsive: true,
+      title: {
+          display: true,
+          text: "Spending breakdown by category",
+          fontSize: 18,
+          fontColor: "#111"
+        },
+        legend: {
+          position: "bottom",
+          labels: {
+            fontColor: "#333",
+            fontSize: 16
+          }
+        }
+    };
+    var categorycolors = ['red','black', 'blue', 'yellow', 'purple', 'brown', 'green', 'gray'];
+    var chPieData1 = {
+    labels: ['Food', 'Phone', 'Vehicle', 'Utilities', 'Medical', 'Rent/ Mortgage', 'Recreational', 'Other'],
+    datasets: [
+      {
+        backgroundColor: categorycolors.slice(0,8),
+        borderWidth: [1, 1, 1, 1, 1],
+        data: [{{ total_category['Food'] }}, {{ total_category['Phone'] }}, {{ total_category['Vehicle'] }}, {{ total_category['Utilities'] }}, {{ total_category['Medical'] }}, {{ total_category['Rent / Mortgage'] }}, {{ total_category['Recreational'] }}, {{ total_category['Other'] }}]
+      }
+    ]
+};
+    var chPie1 = document.getElementById("chPie1");
+    if (chPie1) {
+      new Chart(chPie1, {
+          type: 'pie',
+          data: chPieData1,
+          options: pieOptions
+      });
+    }
+    var barOptions = {
+      responsive: true,
+      title: {
+          display: true,
+          text: "Spending breakdown by period",
+          fontSize: 18,
+          fontColor: "#111"
+        }
+    };
+    var bardata = {
+    labels: ['daily', 'weekly', 'monthly', 'yearly','one time'],
+        datasets: [
+          {
+            backgroundColor: categorycolors.slice(0,5),
+            data: [{{ total_expenses['daily'] }}, {{ total_expenses['weekly'] }}, {{ total_expenses['monthly'] }}, {{ total_expenses['yearly'] }}, {{ total_expenses['oneTime'] }} ]
+          }
+        ]
+    };
+    var ctx = document.getElementById("barchart");
+    var myBarChart = new Chart(ctx, {
+          type: 'bar',
+          data: bardata,
+          options: barOptions
+      });
       </script>
 {% endblock %}
