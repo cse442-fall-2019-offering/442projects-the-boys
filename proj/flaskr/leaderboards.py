@@ -14,9 +14,8 @@ def leaderboard():
     if request.method == 'POST':
         criteria = request.form['criteria']
         friendFilter = False
-        if 'friendFilter' in request.form:
+        if 'friendFilter' in request.form and session.get('user_id'):
             friendFilter = True
-        print(friendFilter)
         if friendFilter:
             if criteria == "username":
                 criteria = "user_name"
@@ -51,3 +50,4 @@ def leaderboard():
     criteria = "income"
 
     return render_template('leaderboards/default_leader.html', people=peoples, cat=criteria)
+
