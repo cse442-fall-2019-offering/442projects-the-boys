@@ -42,12 +42,36 @@ def leaderboard():
                 "SELECT * FROM user WHERE occupation IS NOT NULL"
                 " ORDER BY {}".format(criteria)
             )
+
+        friends = db.selectall(
+            "SELECT user_id FROM friends WHERE friend_id= {}"
+            " ORDER BY income".format(session.get('user_id'))
+        )
+
+        for index, person in enumerate(peoples) :
+            peoples[index]['isfriend'] = 0
+            for friend in friends :
+                if friend['user_id'] == person['id'] :
+                    peoples[index]['isfriend'] = 1
         return render_template('leaderboards/default_leader.html', people=peoples, cat=criteria)
 
     peoples = db.selectall(
         "SELECT * FROM user WHERE occupation IS NOT NULL"
         " ORDER BY income"
     )
+
+    friends = db.selectall(
+        "SELECT user_id FROM friends WHERE friend_id= {}"
+        " ORDER BY income".format(session.get('user_id'))
+    )
+
+    for index, person in enumerate(peoples) :
+        peoples[index]['isfriend'] = 0
+        for friend in friends :
+            if friend['user_id'] == person['id'] :
+                peoples[index]['isfriend'] = 1
+
+
     criteria = "income"
 
-    return render_template('leaderboards/default_leader.html', people=peoples, cat=criteria)
+    return render_template('leaderboards/default_leader.html',friends=friends, people=peoples, cat=criteria)

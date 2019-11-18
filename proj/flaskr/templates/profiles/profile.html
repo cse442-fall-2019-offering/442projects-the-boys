@@ -117,9 +117,9 @@
                             <input type="number" placeholder="Enter an estimate of your salary" value="{{g.user['income']}}" class="form-control" id="recipient-name" name="income" required="required">
                         </div>
                         <div class="form-check">
-                          <input type="checkbox"  id="recipient-anonymous"  name="anonymous" {%  if g.user['anonymous']  %}checked{%  endif %}>
-
-                          <label class="form-check-label" for="recipient-anonymous">Remain Anonymous?</label>
+                          <input type="radio" name="anonymous" value="2" {%  if g.user['anonymous'] == 2  %}checked{%  endif %}>Remain anonymous to everyone<br>
+                          <input type="radio" name="anonymous" value="1" {%  if g.user['anonymous'] == 1  %}checked{%  endif %}>Remain anonymous to everyone except friends<br>
+                          <input type="radio" name="anonymous" value="0" {%  if g.user['anonymous'] == 0  %}checked{%  endif %}>Do not remain anonymous<br>
                         </div>
                         <div class = "form-group">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -147,9 +147,8 @@
 <div class="card" style="width: 30rem;margin: 0 auto; float: none;">
 
 
-  <div style="font-weight: bold", class="card-header", style ="text-align: center"  >{%  if g.user['anonymous'] == 1 %}Anonymous User{%  else %} {{ g.user['name1'] }}{%  endif %}</div>
+  <div style="font-weight: bold", class="card-header", style ="text-align: center"  > {{ g.user['name1'] }}</div>
 
-  {%  if g.user['anonymous'] != 1 %}
     <li class="list-group-item"> Username: {{ g.user['username'] }}</li>
 
      {%  if g.user['income'] != None %}
@@ -180,9 +179,6 @@
      {%  else %}
           <li class="list-group-item">User has not shared their age yet</li>
      {%  endif %}
-   {%  else %}
-    <li class="list-group-item">This user is anonymous</li>
-   {%  endif %}
   <li class="list-group-item">Number of Badges Earned: 1</li>
 
   </ul>

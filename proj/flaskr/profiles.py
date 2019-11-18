@@ -71,11 +71,7 @@ def profile():
         location = request.form['location']
         income = request.form['income']
         error = None
-        try:
-            request.form['anonymous']
-            anonymous = 1
-        except :
-            anonymous = 0
+        anonymous = request.form['anonymous']
         if not name1:
             error = "Please enter your name!"
         if not occupation:
@@ -176,6 +172,10 @@ def viewFriend(username, field, location, name , age , income, anon, id):
         "SELECT * FROM expense WHERE author_id = '{}'"
         "ORDER BY category, cost".format(id)
     )
+    user = db.selectall(
+        "SELECT * FROM user WHERE id = '{}'".format(id)
+    )
+    user = user[0]
 
     total_expenses = { "daily": 0, "weekly": 0, "monthly": 0, "yearly": 0, "oneTime": 0, "total": 0 }
     total_category = { "Food": 0, "Utilities": 0, "Recreational": 0, "Medical": 0, "Rent / Mortgage": 0, "Phone": 0, "Vehicle": 0 , "Other": 0 }
@@ -198,7 +198,7 @@ def viewFriend(username, field, location, name , age , income, anon, id):
     the_total_expenses = total_expenses['total'] // 12
 
 
-    return render_template('profiles/viewFriend.html', total_category=total_category, total_expenses=total_expenses, infographics=infographics(the_total_expenses, (int(income) // 12)), username=username , field=field, location=location,name=name,age=age,income=income,anon=anon,id=id )
+    return render_template('profiles/viewFriend.html', total_category=total_category, total_expenses=total_expenses, infographics=infographics(the_total_expenses, (int(income) // 12)),user=user, username=user['username'] , field=field, location=user['location'],name=user['name1'],age=user['age'],income=user['income'],anon=anon,id=id )
 
 
 def infographics(spent, left) :

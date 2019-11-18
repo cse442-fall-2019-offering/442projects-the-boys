@@ -18,9 +18,8 @@
 
 
 
-  <div style="font-weight: bold", class="card-header", style ="text-align: center"  >{%  if  '1'  == anon %}Anonymous User{%  else %} {{ name }}{%  endif %}</div>
-
-  {%  if '1' != anon %}
+  <div style="font-weight: bold", class="card-header", style ="text-align: center"  >{%  if  2  == user['anonymous'] %}Anonymous User{%  else %} {{ name }}{%  endif %}</div>
+  {%  if 2 !=  user['anonymous']  %}
     <li class="list-group-item"> Username: {{ name }}</li>
 
      {%  if  income  != None %}
@@ -58,8 +57,8 @@
 
   </ul>
   <img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
-
-
+  
+  {%  if 2 !=  user['anonymous']  %}
   <div class = "row mt-5">
     <div class = "col-md-4 col-lg-4 col-12">
       <canvas id="chDonut1"></canvas>
@@ -70,7 +69,9 @@
     <div class = "col-md-4 col-lg-4 col-12">
       <canvas id="barchart"></canvas>
     </div>
+
   </div>
+  {%  endif %}
   <script>
     var date = new Date();
     const month = date.toLocaleString('default', { month: 'long' });
