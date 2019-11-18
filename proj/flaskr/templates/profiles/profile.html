@@ -23,8 +23,9 @@
       </div>
       <div class="modal-body">
         {% for friend in friends %}
-        <a href="{{ url_for('profiles.startViewFriend' , username=friend.user_name,field=friend.field,location=friend.location,name=friend.name,age=friend.age,income=friend.income,anon=friend.anon)}}"  class="list-group-item  list-group-item-info">
-            <img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto" class="float-sm-right">
+
+        <a href="{{ url_for('profiles.startViewFriend',username=friend.user_name,field=friend.field,location=friend.location,name=friend.name,age=friend.age,income=friend.income,anon=friend.anon,id=friend.user_id)}}"  class="list-group-item  list-group-item-info">
+        <img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto" class="float-sm-right">
             <h4> {{ friend['user_name'] }}</h4>
             <p> {{ friend['field'] }}, {{ friend['location'] }}</p>
 
