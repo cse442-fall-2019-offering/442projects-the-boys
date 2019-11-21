@@ -13,16 +13,65 @@ def leaderboard():
 
     if request.method == 'POST':
         criteria = request.form['criteria']
-        peoples = db.selectall(
-            "SELECT * FROM user WHERE occupation IS NOT NULL"
-            " ORDER BY {}".format(criteria)
+        friendFilter = False
+        if 'friendFilter' in request.form:
+            friendFilter = True
+        print(friendFilter)
+        if friendFilter:
+            if criteria == "username":
+                criteria = "friends.user_name"
+            elif criteria == "income":
+                criteria = "friends.income"
+            elif criteria == "occupation":
+                criteria = "friends.field"
+            elif criteria == "location":
+                criteria = "friends.location"
+            print("SELECT * FROM friends WHERE friend_id = {}"
+                " ORDER BY {}".format(session.get('user_id'), criteria))
+            peoples = db.selectall(
+                "SELECT * FROM friends INNER JOIN user ON user.id=friends.user_id WHERE friend_id = {}"
+                " ORDER BY {}".format(session.get('user_id'), criteria)
+            )
+            print(peoples)
+            for person in peoples:
+                person["username"] = person["user_name"]
+                person["occupation"] = person["field"]
+
+        else:
+            peoples = db.selectall(
+                "SELECT * FROM user WHERE occupation IS NOT NULL"
+                " ORDER BY {}".format(criteria)
+            )
+
+        friends = db.selectall(
+            "SELECT user_id FROM friends WHERE friend_id= {}"
+            " ORDER BY income".format(session.get('user_id'))
         )
+
+        for index, person in enumerate(peoples) :
+            peoples[index]['isfriend'] = 0
+            for friend in friends :
+                if friend['user_id'] == person['id'] :
+                    peoples[index]['isfriend'] = 1
         return render_template('leaderboards/default_leader.html', people=peoples, cat=criteria)
 
     peoples = db.selectall(
         "SELECT * FROM user WHERE occupation IS NOT NULL"
         " ORDER BY income"
     )
+
+    friends = db.selectall(
+        "SELECT user_id FROM friends WHERE friend_id= {}"
+        " ORDER BY income".format(session.get('user_id'))
+    )
+
+    for index, person in enumerate(peoples) :
+        peoples[index]['isfriend'] = 0
+        for friend in friends :
+            if friend['user_id'] == person['id'] :
+                peoples[index]['isfriend'] = 1
+
+
     criteria = "income"
 
-    return render_template('leaderboards/default_leader.html', people=peoples, cat=criteria)
+    return render_template('leaderboards/default_leader.html',friends=friends, people=peoples, cat=criteria)

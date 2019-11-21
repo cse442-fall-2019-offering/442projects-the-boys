@@ -15,11 +15,13 @@
                 <option>location</option>
             </select>
         </div>
+        <div class="checkbox text-center">
+            <label><input type="checkbox" name="friendFilter"> Only Show Friends</label>
+        </div>
         <div class="form-group">
             <button type="submit" class="btn btn-outline-success btn-block">Sort By</button>
         </div>
     </form>
-
     <table class="table">
         <tr>
             <th>User</th>
@@ -27,10 +29,20 @@
             <th>Profession</th>
             <th>Location</th>
         </tr>
-
         {% for person in people %}
             <tr>
-                <td>{{ person['username'] }}</td>
+                <td>
+                  {%  if person['anonymous'] == 2 %}
+                  Anonymous User
+                  {%  elif person['anonymous'] == 1  %}
+                    {%  if person['isfriend'] == 1 %}
+                      {{person['username']}}
+                        {%  else %}
+                        Anonymous user
+                          {%  endif %}
+                  {%  else %}
+                    {{ person['username']}}
+                  {%  endif %}</td>
                 <td>${{ person['income'] }}</td>
                 <td>{{ person['occupation'] }}</td>
                 <td>{{ person['location'] }}</td>
