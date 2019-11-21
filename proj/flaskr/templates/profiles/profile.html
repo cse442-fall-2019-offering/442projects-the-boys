@@ -185,7 +185,22 @@
 
   </ul>
   <img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
-
+<div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Select Badge to Display
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="{{ url_for('profiles.chooseBadge',badgeID=0) }}"><img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto"></a>
+      {% if user.badge2 == 1 %}
+    <a class="dropdown-item" href="#">Another action</a>
+      {% else %}
+        {% endif %}
+      {% if user.badge3 == 1 %}
+    <a class="dropdown-item" href="#">Something else here</a>
+      {% else %}
+  {% endif %}
+  </div>
+</div>
 
 {#    Information card Ends here#}
 

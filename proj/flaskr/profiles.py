@@ -206,3 +206,12 @@ def infographics(spent, left) :
     infographicdata.append(spent)
     infographicdata.append(left - spent)
     return infographicdata
+
+@bp.route('chooseBadge/<badgeID>',methods = ['POST','GET'])
+def chooseBadge(badgeID):
+    db = flaskr.db.Database()
+    db.insert(
+        "UPDATE user SET badgeID='{}' WHERE id='{}'".format(badgeID,session.get('user_id'))
+    )
+
+    return redirect(url_for('profiles.profile'))
