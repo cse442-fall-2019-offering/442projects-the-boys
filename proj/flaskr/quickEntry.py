@@ -75,8 +75,6 @@ def quickEntry():
         title = request.form['title']
         cost = request.form['cost']
         rate = request.form['rate']
-        badge3 = 1
-        badge4 = 1
         error = None
 
         if not title:
@@ -89,20 +87,10 @@ def quickEntry():
             error = "Rate Required"
         if error is not None:
             flash(error)
-
-        db.insert(
-            "UPDATE user SET badge3 = '{}' WHERE id='{}' ".format(badge3, session.get('user_id'))
-        )
-        if rate != "One Time":
-            db.insert(
-                "UPDATE user SET badge4 = '{}' WHERE id='{}' ".format(badge4, session.get('user_id'))
-            )
         print(db.insert(
             "INSERT INTO expense (title, cost, author_id, category, rate) VALUES "
             "('" + title + "', '" + str(cost) + "', '" + str(g.user['id']) + "', '" + category + "', '" + rate + "')"
         ))
-
-
         return redirect(url_for('quickEntry.quickEntry'))
     if user[0]['income'] is None:
         user[0]['income'] = 0

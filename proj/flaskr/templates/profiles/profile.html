@@ -181,35 +181,10 @@
      {%  else %}
           <li class="list-group-item">User has not shared their age yet</li>
      {%  endif %}
-
-   {%  else %}
-    <li class="list-group-item">This user is anonymous</li>
-   {%  endif %}
-  <li class="list-group-item">Badges Earned: </li>
-
+  <li class="list-group-item">Number of Badges Earned: 1</li>
 
   </ul>
   <img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
-  <h4 style="display: block;margin-left: auto;margin-right: auto">Sign Up Badge </h4>
-  <p> </p>
-
-  {%  if g.user['badge2'] != None %}
-        <img src="/static/badge2.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
-        <h4 style="display: block;margin-left: auto;margin-right: auto">Update Profile Badge </h4>
-        <p> </p>
-  {% endif %}
-
-  {%  if g.user['badge3'] != None %}
-        <img src="/static/badge4.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
-        <h4 style="display: block;margin-left: auto;margin-right: auto">Added an Expense </h4>
-        <p> </p>
-  {% endif %}
-
-  {%  if g.user['badge4'] != None %}
-        <img src="/static/images.png" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
-        <h4 style="display: block;margin-left: auto;margin-right: auto">Added a Reoccurring Expense </h4>
-        <p> </p>
-  {% endif %}
 
 
 {#    Information card Ends here#}
