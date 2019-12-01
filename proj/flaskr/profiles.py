@@ -70,6 +70,7 @@ def profile():
         age = request.form['age']
         location = request.form['location']
         income = request.form['income']
+        badge2 = 1
         error = None
         anonymous = request.form['anonymous']
         if not name1:
@@ -101,6 +102,11 @@ def profile():
             db.insert(
                 "UPDATE user SET income = '{}' WHERE id='{}' ".format(income, session.get('user_id'))
             )
+
+            db.insert(
+                "UPDATE user SET badge2 = '{}' WHERE id='{}' ".format(badge2, session.get('user_id'))
+            )
+
             db.insert(
                 "UPDATE user SET anonymous = '{}' WHERE id='{}' ".format(anonymous, session.get('user_id'))
             )
