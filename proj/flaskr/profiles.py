@@ -138,12 +138,12 @@ def addFriends():
             )
             if id is None:
                 db.insert(
-                    "INSERT INTO friends VALUES ( '{}' , '{}' , '{}' , '{}' , '{}' , '{}' , '{}','{}' ,'{}')".format(name['username'],
+                    "INSERT INTO friends VALUES ( '{}' , '{}' , '{}' , '{}' , '{}' , '{}' , '{}','{}' ,'{}','{}')".format(name['username'],
                                                                                      session.get('user_id'),
                                                                                      name['occupation'],
                                                                                      name['location'],
                                                                                         name['name1'],
-                                                                                        name['age'], name['income'] , name['anonymous'], name['id'])
+                                                                                        name['age'], name['income'] , name['anonymous'], name['id'],name['displayedBadge'])
 
                 )
                 return redirect(url_for('profiles.profile'))
@@ -174,6 +174,10 @@ def startViewFriend(username, field, location, name , age , income, anon, id):
 @bp.route('/viewFriend/<username>/<field>/<location>/<name>/<age>/<income>/<anon>/<id>',methods=['POST','GET'])
 def viewFriend(username, field, location, name , age , income, anon, id):
     db = flaskr.db.Database()
+    badge = db.select(
+        "SELECT displayedBadge FROM user WHERE username = '{}'".format(username)
+    )
+    badge1 = badge['displayedBadge']
     expenses = db.selectall(
         "SELECT * FROM expense WHERE author_id = '{}'"
         "ORDER BY category, cost".format(id)
@@ -204,7 +208,7 @@ def viewFriend(username, field, location, name , age , income, anon, id):
     the_total_expenses = total_expenses['total'] // 12
 
 
-    return render_template('profiles/viewFriend.html', total_category=total_category, total_expenses=total_expenses, infographics=infographics(the_total_expenses, (int(income) // 12)),user=user, username=user['username'] , field=field, location=user['location'],name=user['name1'],age=user['age'],income=user['income'],anon=anon,id=id )
+    return render_template('profiles/viewFriend.html',badge = badge1, total_category=total_category, total_expenses=total_expenses, infographics=infographics(the_total_expenses, (int(income) // 12)),user=user, username=user['username'] , field=field, location=user['location'],name=user['name1'],age=user['age'],income=user['income'],anon=anon,id=id )
 
 
 def infographics(spent, left) :
@@ -212,3 +216,17 @@ def infographics(spent, left) :
     infographicdata.append(spent)
     infographicdata.append(left - spent)
     return infographicdata
+
+@bp.route('chooseBadge/<badgeID>',methods = ['POST','GET'])
+def chooseBadge(badgeID):
+    db = flaskr.db.Database()
+    db.insert(
+        "UPDATE user SET displayedBadge='{}' WHERE id='{}'".format(badgeID,session.get('user_id'))
+    )
+
+    db.insert(
+        "UPDATE friends SET displayedBadge='{}' WHERE user_name='{}'".format(badgeID, session.get('username'))
+    )
+
+
+    return redirect(url_for('profiles.profile'))
