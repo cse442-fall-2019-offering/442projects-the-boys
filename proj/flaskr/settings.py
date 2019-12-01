@@ -20,24 +20,18 @@ def settings():
     if request.method == 'POST':
         name1 = request.form['fullname']
         username = request.form['username']
-        anonymous = 0
-        try:
-            request.form['anonymous']
-            anonymous = 1
-        except :
-            anonymous = 0
+        anonymous = request.form['anonymous']
 
-            db.insert(
-                "UPDATE user SET name1 = '{}' WHERE id='{}' ".format(name1, session.get('user_id'))
-            )
-            db.insert(
-                "UPDATE user SET username = '{}' WHERE id='{}' ".format(username, session.get('user_id'))
-            )
+        db.insert(
+            "UPDATE user SET name1 = '{}' WHERE id='{}' ".format(name1, session.get('user_id'))
+        )
+        db.insert(
+            "UPDATE user SET username = '{}' WHERE id='{}' ".format(username, session.get('user_id'))
+        )
 
-            db.insert(
-                "UPDATE user SET anonymous = '{}' WHERE id='{}' ".format(anonymous, session.get('user_id'))
-            )
-
-
+        db.insert(
+            "UPDATE user SET anonymous = '{}' WHERE id='{}' ".format(anonymous, session.get('user_id'))
+        )
+        return redirect(url_for('settings.settings'))
 
     return render_template('settings/index.html', user=user)
