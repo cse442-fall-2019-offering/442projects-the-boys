@@ -225,7 +225,7 @@ def chooseBadge(badgeID):
     )
 
     db.insert(
-        "UPDATE friends SET displayedBadge='{}' WHERE user_name='{}'".format(badgeID, session.get('username'))
+        "UPDATE friends SET displayedBadge='{}' WHERE user_id='{}'".format(badgeID, session.get('user_id'))
     )
 
 
