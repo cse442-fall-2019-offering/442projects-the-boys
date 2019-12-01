@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
-
 {% block header %}
-    <h1 class="display-1">{% block title %} Your Profile {% endblock %}</h1>
+    <h1 class="display-1 text-center">{% block title %} Your Profile {% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -17,14 +16,34 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Friends</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">{{ numFriends }} Friends</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         {% for friend in friends %}
-        <a href="{{ url_for('profiles.startViewFriend' , username=friend.user_name,field=friend.field,location=friend.location,name=friend.name,age=friend.age,income=friend.income,anon=friend.anon)}}"  class="list-group-item  list-group-item-info">
+
+        <a href="{{ url_for('profiles.startViewFriend',username=friend.user_name,field=friend.field,location=friend.location,name=friend.name,age=friend.age,income=friend.income,anon=friend.anon,id=friend.user_id)}}"  class="list-group-item  list-group-item-info">
+        {% if friend.displayedBadge == 0 %}
+            <img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto" class="float-sm-right">
+        {% endif %}
+        {% if friend.displayedBadge == 1 %}
+            <img src="/static/badge2.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto" class="float-sm-right">
+
+        {% endif %}
+        {% if friend.displayedBadge == 2 %}
+            <img src="/static/reocurring.png" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto" class="float-sm-right">
+
+        {% endif %}
+        {% if friend.displayedBadge == 3 %}
+            <img src="/static/Badge4.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto" class="float-sm-right">
+
+        {% endif %}
+
+
+
+
             <h4> {{ friend['user_name'] }}</h4>
             <p> {{ friend['field'] }}, {{ friend['location'] }}</p>
 
@@ -42,16 +61,30 @@
     </div>
   </div>
 </div>
+{% if user.displayedBadge == 0 %}
+    <img src="/static/badge1.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+        {% endif %}
+        {% if user.displayedBadge == 1 %}
+    <img src="/static/badge2.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+
+        {% endif %}
+        {% if user.displayedBadge == 2 %}
+    <img src="/static/reocurring.png" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+
+        {% endif %}
+        {% if user.displayedBadge == 3 %}
+    <img src="/static/Badge4.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+
+        {% endif %}
 
 
-
-    <img src="/static/hi.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
     <p>
 
 
 
 </p>
     <div class="row">
+
   <div class="col-md-12 text-center">
     <form action="{{ url_for('profiles.startAddFriends') }}" method="post" class="container">
 <div class="btn-group" role="group" aria-label="Basic example">
@@ -117,9 +150,9 @@
                             <input type="number" placeholder="Enter an estimate of your salary" value="{{g.user['income']}}" class="form-control" id="recipient-name" name="income" required="required">
                         </div>
                         <div class="form-check">
-                          <input type="checkbox"  id="recipient-anonymous"  name="anonymous" {%  if g.user['anonymous']  %}checked{%  endif %}>
-
-                          <label class="form-check-label" for="recipient-anonymous">Remain Anonymous?</label>
+                          <input type="radio" name="anonymous" value="2" {%  if g.user['anonymous'] == 2  %}checked{%  endif %}>Remain anonymous to everyone<br>
+                          <input type="radio" name="anonymous" value="1" {%  if g.user['anonymous'] == 1  %}checked{%  endif %}>Remain anonymous to everyone except friends<br>
+                          <input type="radio" name="anonymous" value="0" {%  if g.user['anonymous'] == 0  %}checked{%  endif %}>Do not remain anonymous<br>
                         </div>
                         <div class = "form-group">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -144,15 +177,11 @@
 
 {#Information card Begins here#}
 
-<div class="card" style="width: 30rem;margin: 0 auto; float: none; margin-bottom: 200px">
+<div class="card" style="width: 30rem;margin: 0 auto; float: none;">
 
 
+  <div style="font-weight: bold", class="card-header", style ="text-align: center"  > {{ g.user['name1'] }}</div>
 
-
-
-  <div style="font-weight: bold", class="card-header", style ="text-align: center"  >{%  if g.user['anonymous'] == 1 %}Anonymous User{%  else %} {{ g.user['name1'] }}{%  endif %}</div>
-
-  {%  if g.user['anonymous'] != 1 %}
     <li class="list-group-item"> Username: {{ g.user['username'] }}</li>
 
      {%  if g.user['income'] != None %}
@@ -183,28 +212,95 @@
      {%  else %}
           <li class="list-group-item">User has not shared their age yet</li>
      {%  endif %}
-   {%  else %}
-    <li class="list-group-item">This user is anonymous</li>
-   {%  endif %}
-  <li class="list-group-item">Number of Badges Earned: 1</li>
+
+{%  if g.user['badge2'] != None and g.user['badge3'] == None and g.user['badge4'] == None %}
+        <li class="list-group-item">Badges Earned: 2 </li>
+
+{%  elif g.user['badge2'] == None and g.user['badge3'] != None and g.user['badge4'] == None %}
+        <li class="list-group-item">Badges Earned: 2 </li>
+
+{%  elif g.user['badge2'] == None and g.user['badge3'] == None and g.user['badge4'] != None %}
+        <li class="list-group-item">Badges Earned: 2 </li>
+
+
+{%  elif g.user['badge2'] != None and g.user['badge3'] != None and g.user['badge4'] == None  %}
+        <li class="list-group-item">Badges Earned: 3 </li>
+
+
+{%  elif g.user['badge3'] != None and g.user['badge4'] != None and g.user['badge2'] == None %}
+        <li class="list-group-item">Badges Earned: 3 </li>
+
+
+{%  elif g.user['badge4'] != None and g.user['badge2'] != None and g.user['badge3'] == None %}
+        <li class="list-group-item">Badges Earned: 3 </li>
+
+
+{%  elif g.user['badge2'] != None and g.user['badge3'] != None and g.user['badge4'] != None %}
+        <li class="list-group-item">Badges Earned: 4 </li>
+
+
+{%  else  %}
+        <li class="list-group-item">Badges Earned: 1 </li>
+{% endif %}
+
+
 
   </ul>
-  <img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
 
+<div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Select Badge to Display
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="{{ url_for('profiles.chooseBadge',badgeID=0) }}"><img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto"></a>
+      {% if user.badge2 == 1 %}
+    <a class="dropdown-item" href="{{ url_for('profiles.chooseBadge',badgeID=1) }}"><img src="/static/badge2.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto"></a>
+      {% else %}
+        {% endif %}
+      {% if user.badge3 == 1 %}
+        <a class="dropdown-item" href="{{ url_for('profiles.chooseBadge',badgeID=2) }}"><img src="/static/reocurring.png" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto"></a>
 
-    </p>
+      {% else %}
+  {% endif %}
+  {% if user.badge4 == 1 %}
+        <a class="dropdown-item" href="{{ url_for('profiles.chooseBadge',badgeID=3) }}"><img src="/static/Badge4.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto"></a>
 
-    <p>
+      {% else %}
+  {% endif %}
 
+  </div>
+</div>
+<img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
 
-    </p>
+  <h4 style="display: block;margin-left: auto;margin-right: auto">Sign Up Badge </h4>
+  <p> </p>
+
+  {%  if g.user['badge2'] != None %}
+        <img src="/static/badge2.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
+        <h4 style="display: block;margin-left: auto;margin-right: auto">Update Profile Badge </h4>
+        <p> </p>
+  {% endif %}
+
+  {%  if g.user['badge3'] != None %}
+        <img src="/static/badge4.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
+        <h4 style="display: block;margin-left: auto;margin-right: auto">Added an Expense </h4>
+        <p> </p>
+  {% endif %}
+
+  {%  if g.user['badge4'] != None %}
+        <img src="/static/reocurring.png" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
+        <h4 style="display: block;margin-left: auto;margin-right: auto">Added a Reoccurring Expense </h4>
+        <p> </p>
+  {% endif %}
+
 
 {#    Information card Ends here#}
 
-
-
     </div>
-    <div class = "card col-md-10 offset-md-1 col-12">
+
+
+
+    <div class = "card col-md-10 offset-md-1 col-12 mt-5">
       <div class = "card-header text-center">
          Information
       </div>
@@ -286,8 +382,8 @@
 
       </div>
     </div>
-    <div class="list-group" style="margin-top:25px;">
 
+    <div class="list-group" style="margin-top:25px;">
         {% for expense in expenses %}
             <a href="#" class="list-group-item list-group-item-action list-group-item-success">
                 <div class="row justify-content-between">
@@ -304,9 +400,5 @@
             </a>
         {% endfor %}
     </div>
-
-
-
-
-
+  
 {% endblock %}
