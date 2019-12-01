@@ -25,7 +25,15 @@
         {% for friend in friends %}
 
         <a href="{{ url_for('profiles.startViewFriend',username=friend.user_name,field=friend.field,location=friend.location,name=friend.name,age=friend.age,income=friend.income,anon=friend.anon,id=friend.user_id)}}"  class="list-group-item  list-group-item-info">
-        <img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto" class="float-sm-right">
+        {% if user.displayedBadge == 1 %}
+            <img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto" class="float-sm-right">
+        {% endif %}
+        {% if user.displayedBadge == 0 %}
+            <img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto" class="float-sm-right">
+
+        {% endif %}
+
+
             <h4> {{ friend['user_name'] }}</h4>
             <p> {{ friend['field'] }}, {{ friend['location'] }}</p>
 
@@ -192,7 +200,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     <a class="dropdown-item" href="{{ url_for('profiles.chooseBadge',badgeID=0) }}"><img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto"></a>
       {% if user.badge2 == 1 %}
-    <a class="dropdown-item" href="#">Another action</a>
+    <a class="dropdown-item" href="{{ url_for('profiles.chooseBadge',badgeID=1) }}">Another action</a>
       {% else %}
         {% endif %}
       {% if user.badge3 == 1 %}
