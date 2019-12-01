@@ -32,11 +32,11 @@ def leaderboard():
                 "SELECT * FROM friends INNER JOIN user ON user.id=friends.user_id WHERE friend_id = {}"
                 " ORDER BY {}".format(session.get('user_id'), criteria)
             )
-            print(peoples)
+
             for person in peoples:
                 person["username"] = person["user_name"]
                 person["occupation"] = person["field"]
-
+            print(peoples)
         else:
             peoples = db.selectall(
                 "SELECT * FROM user WHERE occupation IS NOT NULL"
@@ -53,6 +53,10 @@ def leaderboard():
             for friend in friends :
                 if friend['user_id'] == person['id'] :
                     peoples[index]['isfriend'] = 1
+        if "friends." in criteria:
+            criteria = criteria.split(".")[1]
+        if criteria == "user_name":
+            criteria = "username"
         return render_template('leaderboards/default_leader.html', people=peoples, cat=criteria)
 
     peoples = db.selectall(
