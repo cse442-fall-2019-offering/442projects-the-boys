@@ -1,22 +1,109 @@
 {% extends 'base.html' %}
-
 {% block header %}
-    <h1 class="display-1">{% block title %} Your Profile {% endblock %}</h1>
+    <h1 class="display-1 text-center">{% block title %} Your Profile {% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
 
-    <img src="/static/hi.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+
+
+    <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">{{ numFriends }} Friends</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% for friend in friends %}
+
+        <a href="{{ url_for('profiles.startViewFriend',username=friend.user_name,field=friend.field,location=friend.location,name=friend.name,age=friend.age,income=friend.income,anon=friend.anon,id=friend.user_id)}}"  class="list-group-item  list-group-item-info">
+        {% if friend.displayedBadge == 0 %}
+            <img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto" class="float-sm-right">
+        {% endif %}
+        {% if friend.displayedBadge == 1 %}
+            <img src="/static/badge2.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto" class="float-sm-right">
+
+        {% endif %}
+        {% if friend.displayedBadge == 2 %}
+            <img src="/static/reocurring.png" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto" class="float-sm-right">
+
+        {% endif %}
+        {% if friend.displayedBadge == 3 %}
+            <img src="/static/Badge4.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto" class="float-sm-right">
+
+        {% endif %}
+
+
+
+
+            <h4> {{ friend['user_name'] }}</h4>
+            <p> {{ friend['field'] }}, {{ friend['location'] }}</p>
+
+        </a>
+
+
+
+
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% if user.displayedBadge == 0 %}
+    <img src="/static/badge1.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+        {% endif %}
+        {% if user.displayedBadge == 1 %}
+    <img src="/static/badge2.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+
+        {% endif %}
+        {% if user.displayedBadge == 2 %}
+    <img src="/static/reocurring.png" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+
+        {% endif %}
+        {% if user.displayedBadge == 3 %}
+    <img src="/static/Badge4.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+
+        {% endif %}
+
+
     <p>
 
 
 
 </p>
+    <div class="row">
 
+  <div class="col-md-12 text-center">
+    <form action="{{ url_for('profiles.startAddFriends') }}" method="post" class="container">
+<div class="btn-group" role="group" aria-label="Basic example">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+   View Friends
+</button>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="display: block; margin-left: auto;margin-right: auto; background-color: #4CAF50; ">Update Information</button>
 
 
+<button type="submit" class="btn btn-secondary" value="Add Friends">Add Friends</button>
+
+</div>
+
+</form>
+    </div>
+</div>
+
 <p>
+
 
 </p>
 
@@ -41,26 +128,31 @@
                     <form method="post">
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label" >Name:</label>
-                            <input placeholder="Ex: John Smith" type="text" class="form-control" id="fullname" name="fullname" required="required" type = "text">
+                            <input placeholder="Ex: John Smith" value = "{{g.user['name1']}}" type="text" class="form-control" id="fullname" name="fullname" required="required" type = "text">
                         </div>
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Occupation:</label>
-                            <input type="text" placeholder="Ex: Engineer, Salesman, Conman " class="form-control" id="recipient-name" name="occupation" required="required">
+                            <input type="text" placeholder="Ex: Engineer, Salesman, Conman " value="{{g.user['occupation']}}" class="form-control" id="recipient-name" name="occupation" required="required">
                         </div>
 
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Age:</label>
-                            <input type="number" placeholder="Ex: 18, 19, 36" class="form-control" id="recipient-name" name="age" required="required">
+                            <input type="number" placeholder="Ex: 18, 19, 36" class="form-control" value="{{g.user['age']}}" id="recipient-name" name="age" required="required">
                         </div>
 
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Location</label>
-                            <input type="text" placeholder="Ex: Area 51, Buffalo, London" class="form-control" id="recipient-name" name="location" required="required">
+                            <input type="text" placeholder="Ex: Area 51, Buffalo, London" value="{{g.user['location']}}" class="form-control" id="recipient-name" name="location" required="required">
                         </div>
 
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Income Estimate:</label>
-                            <input type="number" placeholder="Enter an estimate of your salary" class="form-control" id="recipient-name" name="income" required="required">
+                            <input type="number" placeholder="Enter an estimate of your salary" value="{{g.user['income']}}" class="form-control" id="recipient-name" name="income" required="required">
+                        </div>
+                        <div class="form-check">
+                          <input type="radio" name="anonymous" value="2" {%  if g.user['anonymous'] == 2  %}checked{%  endif %}>Remain anonymous to everyone<br>
+                          <input type="radio" name="anonymous" value="1" {%  if g.user['anonymous'] == 1  %}checked{%  endif %}>Remain anonymous to everyone except friends<br>
+                          <input type="radio" name="anonymous" value="0" {%  if g.user['anonymous'] == 0  %}checked{%  endif %}>Do not remain anonymous<br>
                         </div>
                         <div class = "form-group">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -85,66 +177,130 @@
 
 {#Information card Begins here#}
 
-<div class="card" style="width: 30rem;margin: 0 auto; float: none; margin-bottom: 200px">
+<div class="card" style="width: 30rem;margin: 0 auto; float: none;">
+
+
+  <div style="font-weight: bold", class="card-header", style ="text-align: center"  > {{ g.user['name1'] }}</div>
+
+    <li class="list-group-item"> Username: {{ g.user['username'] }}</li>
+
+     {%  if g.user['income'] != None %}
+          <li class="list-group-item">Current Income: {{ g.user['income'] }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their income yet</li>
+     {%  endif %}
+
+
+     {%  if g.user['occupation'] != None %}
+          <li class="list-group-item">Occupation/Field: {{ g.user['occupation'] }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their occupation yet</li>
+     {%  endif %}
 
 
 
-
-
-  <div style="font-weight: bold", class="card-header", style ="text-align: center"  > {{ g.user['name1'] }} </div>
-
-
-  <li class="list-group-item"> Username: {{ g.user['username'] }}</li>
-
-   {%  if g.user['income'] != None %}
-        <li class="list-group-item">Current Income: {{ g.user['income'] }}</li>
-   {%  else %}
-        <li class="list-group-item">User has not shared their income yet</li>
-   {%  endif %}
-
-
-   {%  if g.user['occupation'] != None %}
-        <li class="list-group-item">Occupation/Field: {{ g.user['occupation'] }}</li>
-   {%  else %}
-        <li class="list-group-item">User has not shared their occupation yet</li>
-   {%  endif %}
+     {%  if g.user['location'] != None %}
+          <li class="list-group-item">Location: {{ g.user['location'] }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their location yet</li>
+     {%  endif %}
 
 
 
-   {%  if g.user['location'] != None %}
-        <li class="list-group-item">Location: {{ g.user['location'] }}</li>
-   {%  else %}
-        <li class="list-group-item">User has not shared their location yet</li>
-   {%  endif %}
+     {%  if g.user['age'] != None %}
+          <li class="list-group-item">Age: {{ g.user['age'] }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their age yet</li>
+     {%  endif %}
+
+{%  if g.user['badge2'] != None and g.user['badge3'] == None and g.user['badge4'] == None %}
+        <li class="list-group-item">Badges Earned: 2 </li>
+
+{%  elif g.user['badge2'] == None and g.user['badge3'] != None and g.user['badge4'] == None %}
+        <li class="list-group-item">Badges Earned: 2 </li>
+
+{%  elif g.user['badge2'] == None and g.user['badge3'] == None and g.user['badge4'] != None %}
+        <li class="list-group-item">Badges Earned: 2 </li>
 
 
-
-   {%  if g.user['age'] != None %}
-        <li class="list-group-item">Age: {{ g.user['age'] }}</li>
-   {%  else %}
-        <li class="list-group-item">User has not shared their age yet</li>
-   {%  endif %}
+{%  elif g.user['badge2'] != None and g.user['badge3'] != None and g.user['badge4'] == None  %}
+        <li class="list-group-item">Badges Earned: 3 </li>
 
 
-  <li class="list-group-item">Number of Badges Earned: 1</li>
+{%  elif g.user['badge3'] != None and g.user['badge4'] != None and g.user['badge2'] == None %}
+        <li class="list-group-item">Badges Earned: 3 </li>
+
+
+{%  elif g.user['badge4'] != None and g.user['badge2'] != None and g.user['badge3'] == None %}
+        <li class="list-group-item">Badges Earned: 3 </li>
+
+
+{%  elif g.user['badge2'] != None and g.user['badge3'] != None and g.user['badge4'] != None %}
+        <li class="list-group-item">Badges Earned: 4 </li>
+
+
+{%  else  %}
+        <li class="list-group-item">Badges Earned: 1 </li>
+{% endif %}
+
+
 
   </ul>
-  <img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
 
+<div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Select Badge to Display
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="{{ url_for('profiles.chooseBadge',badgeID=0) }}"><img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto"></a>
+      {% if user.badge2 == 1 %}
+    <a class="dropdown-item" href="{{ url_for('profiles.chooseBadge',badgeID=1) }}"><img src="/static/badge2.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto"></a>
+      {% else %}
+        {% endif %}
+      {% if user.badge3 == 1 %}
+        <a class="dropdown-item" href="{{ url_for('profiles.chooseBadge',badgeID=2) }}"><img src="/static/reocurring.png" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto"></a>
 
-    </p>
+      {% else %}
+  {% endif %}
+  {% if user.badge4 == 1 %}
+        <a class="dropdown-item" href="{{ url_for('profiles.chooseBadge',badgeID=3) }}"><img src="/static/Badge4.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto"></a>
 
-    <p>
+      {% else %}
+  {% endif %}
 
+  </div>
+</div>
+<img src="/static/badge1.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
 
-    </p>
+  <h4 style="display: block;margin-left: auto;margin-right: auto">Sign Up Badge </h4>
+  <p> </p>
+
+  {%  if g.user['badge2'] != None %}
+        <img src="/static/badge2.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
+        <h4 style="display: block;margin-left: auto;margin-right: auto">Update Profile Badge </h4>
+        <p> </p>
+  {% endif %}
+
+  {%  if g.user['badge3'] != None %}
+        <img src="/static/badge4.jpg" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
+        <h4 style="display: block;margin-left: auto;margin-right: auto">Added an Expense </h4>
+        <p> </p>
+  {% endif %}
+
+  {%  if g.user['badge4'] != None %}
+        <img src="/static/reocurring.png" style="width: 18%;height:auto;display: block;margin-left: auto;margin-right: auto">
+        <h4 style="display: block;margin-left: auto;margin-right: auto">Added a Reoccurring Expense </h4>
+        <p> </p>
+  {% endif %}
+
 
 {#    Information card Ends here#}
 
-
-
     </div>
-    <div class = "card col-md-10 offset-md-1 col-12">
+
+
+
+    <div class = "card col-md-10 offset-md-1 col-12 mt-5">
       <div class = "card-header text-center">
          Information
       </div>
@@ -226,8 +382,8 @@
 
       </div>
     </div>
-    <div class="list-group" style="margin-top:25px;">
 
+    <div class="list-group" style="margin-top:25px;">
         {% for expense in expenses %}
             <a href="#" class="list-group-item list-group-item-action list-group-item-success">
                 <div class="row justify-content-between">
@@ -244,9 +400,5 @@
             </a>
         {% endfor %}
     </div>
-
-
-
-
-
+  
 {% endblock %}

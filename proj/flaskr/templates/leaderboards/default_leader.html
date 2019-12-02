@@ -1,51 +1,79 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<h1 class="display-1">{% block title %}Global Leader Board{% endblock %}</h1>
+    <h1 class="display-1 text-center">{% block title %}Global Leader Board{% endblock %}</h1>
+    <h2 class="text-center">Sort By: {{ cat }} </h2>
 {% endblock %}
 
 {% block content %}
-<form method="post">
 
-    <h1>Top Salaries</h1>
-    <select class="browser-default custom-select">
-        <option value="">Salary</option>
-        <option value="">Savings</option>
-        <option value="">Profession</option>
-        <option value="">Alphabetical</option>
-    </select>
+
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0 text-center">
+                    <button class="btn btn-success btn-lg" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Filter
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <form method="post" class="container">
+
+                        <div class="form-group">
+                            <select class="form-control" id="criteria" name="criteria" required="required">
+                                <option>income</option>
+                                <option>occupation</option>
+                                <option>username</option>
+                                <option>location</option>
+                            </select>
+                        </div>
+                        <div class="checkbox text-center">
+                            <label><input type="checkbox" name="friendFilter"> Only Show Friends</label>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-outline-success btn-block">Sort By</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    </div>
+
+
     <table class="table">
         <tr>
             <th>User</th>
             <th>Salary</th>
             <th>Profession</th>
+            <th>Location</th>
         </tr>
-        <tr>
-            <td>Dannen</td>
-            <td>$100,000</td>
-            <td>Computer Science</td>
-        </tr>
-        <tr>
-            <td>Manthan</td>
-            <td>$80,000</td>
-            <td>Art Teacher</td>
-        </tr>
-        <tr>
-            <td>Joey</td>
-            <td>money</td>
-            <td>Profession</td>
-        </tr>
-        <tr>
-            <td>Tyler</td>
-            <td>money</td>
-            <td>Profession</td>
-        </tr>
-        <tr>
-            <td>Person</td>
-            <td>money</td>
-            <td>Profession</td>
-        </tr>
+        {% for person in people %}
+            <tr>
+                <td>
+                  {%  if person['anonymous'] == 2 %}
+                  Anonymous User
+                  {%  elif person['anonymous'] == 1  %}
+                    {%  if person['isfriend'] == 1 %}
+                      {{person['username']}}
+                        {%  else %}
+                        Anonymous user
+                          {%  endif %}
+                  {%  else %}
+                    {{ person['username']}}
+                  {%  endif %}</td>
+                <td>${{ person['income'] }}</td>
+                <td>{{ person['occupation'] }}</td>
+                <td>{{ person['location'] }}</td>
+            </tr>
+
+        {% endfor %}
     </table>
 
-</form>
+
 {% endblock %}

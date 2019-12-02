@@ -3,6 +3,8 @@ from flask import (
 )
 import flaskr.db
 import datetime
+import random
+
 
 from werkzeug.exceptions import abort
 
@@ -17,6 +19,16 @@ def quickEntry():
     db = flaskr.db.Database()
 
     print(session.get('user_id'))
+
+    #random number for tip gen range should correspond to the range of tip_ids in database 
+    randId = random.randint(1, 9)
+
+    #gets a random tip
+    tips = db.select(
+        "SELECT * FROM tips WHERE tip_id = '{}'".format(randId)
+    )
+
+
     expenses = db.selectall(
 
         "SELECT * FROM expense WHERE author_id = '{}'"
@@ -63,6 +75,8 @@ def quickEntry():
         title = request.form['title']
         cost = request.form['cost']
         rate = request.form['rate']
+        badge3 = 1
+        badge4 = 1
         error = None
 
         if not title:
@@ -75,14 +89,24 @@ def quickEntry():
             error = "Rate Required"
         if error is not None:
             flash(error)
+
+        db.insert(
+            "UPDATE user SET badge3 = '{}' WHERE id='{}' ".format(badge3, session.get('user_id'))
+        )
+        if rate != "One Time":
+            db.insert(
+                "UPDATE user SET badge4 = '{}' WHERE id='{}' ".format(badge4, session.get('user_id'))
+            )
+
+
         print(db.insert(
             "INSERT INTO expense (title, cost, author_id, category, rate) VALUES "
             "('" + title + "', '" + str(cost) + "', '" + str(g.user['id']) + "', '" + category + "', '" + rate + "')"
         ))
         return redirect(url_for('quickEntry.quickEntry'))
-    if user[0]['income'] is None :
+    if user[0]['income'] is None:
         user[0]['income'] = 0
-    return render_template('quickEntry/default_entry.html', expenses=expenses, total_expenses=total_expenses, user=user[0])
+    return render_template('quickEntry/default_entry.html', expenses=expenses, total_expenses=total_expenses, user=user[0],tips = tips)
 
 
 # for delete button for each expense on the quickEntry page

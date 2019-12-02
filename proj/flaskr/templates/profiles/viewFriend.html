@@ -1,0 +1,191 @@
+
+{% extends 'base.html' %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block content %}
+
+    {% if badge == 0 %}
+<img src="/static/badge1.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+{% endif %}
+    {% if badge == 1 %}
+<img src="/static/badge2.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+{% endif %}
+    {% if badge == 2 %}
+<img src="/static/reocurring.png" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+{% endif %}
+    {% if badge == 3 %}
+<img src="/static/Badge4.jpg" style="border-radius: 50%;width: 15%;height:auto;display: block;margin-left: auto;margin-right: auto">
+{% endif %}
+    <p>
+
+
+
+</p>
+
+
+
+
+
+
+  <div style="font-weight: bold", class="card-header", style ="text-align: center"  >{%  if  2  == user['anonymous'] %}Anonymous User{%  else %} {{ name }}{%  endif %}</div>
+  {%  if 2 !=  user['anonymous']  %}
+    <li class="list-group-item"> Username: {{ name }}</li>
+
+     {%  if  income  != None %}
+          <li class="list-group-item">Current Income: {{ income }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their income yet</li>
+     {%  endif %}
+
+
+     {%  if field  != None %}
+          <li class="list-group-item">Occupation/Field: {{ field }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their occupation yet</li>
+     {%  endif %}
+
+
+
+     {%  if  location  != None %}
+          <li class="list-group-item">Location: {{ location }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their location yet</li>
+     {%  endif %}
+
+
+
+     {%  if age != None %}
+          <li class="list-group-item">Age: {{ age }}</li>
+     {%  else %}
+          <li class="list-group-item">User has not shared their age yet</li>
+     {%  endif %}
+   {%  else %}
+    <li class="list-group-item">This user is anonymous</li>
+   {%  endif %}
+  <li class="list-group-item">Number of Badges Earned: 1</li>
+
+  </ul>
+
+
+
+
+
+
+  {%  if 2 !=  user['anonymous']  %}
+  <div class = "row mt-5">
+    <div class = "col-md-4 col-lg-4 col-12">
+      <canvas id="chDonut1"></canvas>
+    </div>
+    <div class = "col-md-4 col-lg-4 col-12">
+      <canvas id="chPie1"></canvas>
+    </div>
+    <div class = "col-md-4 col-lg-4 col-12">
+      <canvas id="barchart"></canvas>
+    </div>
+
+  </div>
+  {%  endif %}
+  <script>
+    var date = new Date();
+    const month = date.toLocaleString('default', { month: 'long' });
+    var colors = ['red','green', 'blue'];
+    /* 3 donut charts */
+    var donutOptions = {
+      responsive: true,
+      title: {
+          display: true,
+          text: month +" Spending",
+          fontSize: 18,
+          fontColor: "#111"
+        },
+        legend: {
+          position: "bottom",
+          labels: {
+            fontColor: "#333",
+            fontSize: 16
+          }
+        }
+    };
+    var chDonutData1 = {
+    labels: ['Spent', 'Left'],
+    datasets: [
+      {
+        backgroundColor: colors.slice(0,2),
+        borderWidth: [1, 1, 1, 1, 1],
+        data: [{{ infographics[0] }}, {{infographics[1]}}]
+      }
+    ]
+};
+    var chDonut1 = document.getElementById("chDonut1");
+    if (chDonut1) {
+      new Chart(chDonut1, {
+          type: 'doughnut',
+          data: chDonutData1,
+          options: donutOptions
+      });
+    }
+
+    var pieOptions = {
+      responsive: true,
+      title: {
+          display: true,
+          text: "Spending breakdown by category",
+          fontSize: 18,
+          fontColor: "#111"
+        },
+        legend: {
+          position: "bottom",
+          labels: {
+            fontColor: "#333",
+            fontSize: 16
+          }
+        }
+    };
+    var categorycolors = ['red','black', 'blue', 'yellow', 'purple', 'brown', 'green', 'gray'];
+    var chPieData1 = {
+    labels: ['Food', 'Phone', 'Vehicle', 'Utilities', 'Medical', 'Rent/ Mortgage', 'Recreational', 'Other'],
+    datasets: [
+      {
+        backgroundColor: categorycolors.slice(0,8),
+        borderWidth: [1, 1, 1, 1, 1],
+        data: [{{ total_category['Food'] }}, {{ total_category['Phone'] }}, {{ total_category['Vehicle'] }}, {{ total_category['Utilities'] }}, {{ total_category['Medical'] }}, {{ total_category['Rent / Mortgage'] }}, {{ total_category['Recreational'] }}, {{ total_category['Other'] }}]
+      }
+    ]
+};
+    var chPie1 = document.getElementById("chPie1");
+    if (chPie1) {
+      new Chart(chPie1, {
+          type: 'pie',
+          data: chPieData1,
+          options: pieOptions
+      });
+    }
+    var barOptions = {
+      responsive: true,
+      title: {
+          display: true,
+          text: "Spending breakdown by period",
+          fontSize: 18,
+          fontColor: "#111"
+        }
+    };
+    var bardata = {
+    labels: ['daily', 'weekly', 'monthly', 'yearly','one time'],
+        datasets: [
+          {
+            backgroundColor: categorycolors.slice(0,5),
+            data: [{{ total_expenses['daily'] }}, {{ total_expenses['weekly'] }}, {{ total_expenses['monthly'] }}, {{ total_expenses['yearly'] }}, {{ total_expenses['oneTime'] }} ]
+          }
+        ]
+    };
+    var ctx = document.getElementById("barchart");
+    var myBarChart = new Chart(ctx, {
+          type: 'bar',
+          data: bardata,
+          options: barOptions
+      });
+      </script>
+{% endblock %}
